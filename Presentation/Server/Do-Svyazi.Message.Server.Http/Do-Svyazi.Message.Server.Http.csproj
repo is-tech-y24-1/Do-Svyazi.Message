@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>Do_Svyazi.Message.Server.Http</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Application\Do-Svyazi.Message.Application.CQRS\Do-Svyazi.Message.Application.CQRS.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Controllers" />
+      <Folder Include="Middleware" />
+      <Folder Include="Models" />
+    </ItemGroup>
+
+</Project>
