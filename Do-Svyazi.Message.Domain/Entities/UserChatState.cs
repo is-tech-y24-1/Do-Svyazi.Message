@@ -6,4 +6,12 @@ public class UserChatState
     private Guid ChatId { get; }
 
     private Message? LastReadMessage { get; }
+
+
+    public UserChatState(Guid userId, Guid chatId, Message? lastReadMessage)
+    {
+        UserId = userId;
+        ChatId = chatId;
+        LastReadMessage = lastReadMessage;
+    }
 }

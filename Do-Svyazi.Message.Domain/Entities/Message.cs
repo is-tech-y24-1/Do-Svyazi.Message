@@ -8,4 +8,14 @@ public class Message
     private string Text { get; }
     private DateTime PostDateTime { get; }
     private Content[] Content { get; }
+
+    public Message(Guid id, Guid userId, Guid chatId, string text, DateTime postDateTime, Content[] content)
+    {
+        Id = id;
+        UserId = userId;
+        ChatId = chatId;
+        Text = text;
+        PostDateTime = postDateTime;
+        Content = content;
+    }
 }
