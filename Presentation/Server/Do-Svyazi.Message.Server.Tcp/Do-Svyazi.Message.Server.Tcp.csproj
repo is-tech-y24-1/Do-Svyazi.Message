@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>Do_Svyazi.Message.Server.Tcp</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Application\Do-Svyazi.Message.Application.CQRS\Do-Svyazi.Message.Application.CQRS.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Filters" />
+      <Folder Include="Hubs" />
+    </ItemGroup>
+
+</Project>

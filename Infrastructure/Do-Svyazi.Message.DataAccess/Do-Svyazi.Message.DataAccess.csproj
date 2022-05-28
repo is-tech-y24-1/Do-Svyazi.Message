@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>Do_Svyazi.Message.DataAccess</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Application\Do-Svyazi.Message.Application.Abstractions\Do-Svyazi.Message.Application.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Do-Svyazi.Message.Domain\Do-Svyazi.Message.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Configurations" />
+    </ItemGroup>
+
+</Project>
