@@ -27,19 +27,16 @@ public class Message
         _content.Add(newContent);
     }
 
-    public bool RemoveContent(Content removableContent)
+    public void RemoveContent(Content removableContent)
     {
         if (removableContent is null)
         {
             throw new DomainException("No content to remove");
         }
 
-        if (!_content.Contains(removableContent))
+        if (!_content.Remove(removableContent))
         {
-            return false;
+            throw new DomainException("No such content to delete");
         }
-        
-        _content.Remove(removableContent);
-        return true;
     }
 }
