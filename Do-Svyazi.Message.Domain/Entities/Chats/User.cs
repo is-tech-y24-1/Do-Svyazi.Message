@@ -3,11 +3,9 @@
 public class User
 {
     public Guid Id { get; }
-    public string Name { get; }
 
-    public User(string name)
+    public User(Guid id)
     {
-        Id = Guid.NewGuid();
-        Name = name;
+        Id = id;
     }
 }

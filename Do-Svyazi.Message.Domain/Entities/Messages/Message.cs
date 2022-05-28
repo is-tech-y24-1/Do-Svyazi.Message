@@ -2,20 +2,31 @@
 
 public class Message
 {
-    public Guid Id { get; }
-    public User User { get; }
-    public Chat Chat { get; }
-    public string Text { get; }
-    public DateTime PostDateTime { get; }
-    public Content[] Content { get; }
+    private List<Content> _content;
 
-    protected Message(User user, Chat chat, string text, DateTime postDateTime, Content[] content)
+    protected Message(User sender, Chat chat, string text, DateTime postDateTime)
     {
         Id = Guid.NewGuid();
-        User = user;
+        Sender = sender;
         Chat = chat;
         Text = text;
         PostDateTime = postDateTime;
-        Content = content;
+    }
+
+    public Guid Id { get; }
+    public User Sender { get; }
+    public Chat Chat { get; }
+    public string Text { get; }
+    public DateTime PostDateTime { get; }
+    public IReadOnlyCollection<Content> Content => _content;
+
+    public void AddContent(Content newContent)
+    {
+        _content.Add(newContent);
+    }
+
+    public void RemoveContent(Content oldContent)
+    {
+        _content.Remove(oldContent);
     }
 }

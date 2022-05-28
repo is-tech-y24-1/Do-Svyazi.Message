@@ -4,7 +4,7 @@ public class UserChatState
 {
     public User User { get; }
     public Chat Chat { get; }
-    public Message? LastReadMessage { get; }
+    public Message? LastReadMessage { get; set; }
 
     public UserChatState(User user, Chat chat, Message? lastReadMessage)
     {

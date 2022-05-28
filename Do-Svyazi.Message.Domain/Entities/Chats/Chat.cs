@@ -3,11 +3,9 @@
 public class Chat
 {
     public Guid Id { get; }
-    public User[] Users { get; }
 
-    public Chat(User[] users)
+    public Chat(Guid id)
     {
-        Id = Guid.NewGuid();
-        Users = users;
+        Id = id;
     }
 }
