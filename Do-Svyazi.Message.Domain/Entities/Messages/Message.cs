@@ -1,10 +1,12 @@
-﻿namespace Do_Svyazi.Message.Domain.Entities;
+﻿using Do_Svyazi.Message.Domain.Tools;
+
+namespace Do_Svyazi.Message.Domain.Entities;
 
 public class Message
 {
     private List<Content> _content;
 
-    protected Message(User sender, Chat chat, string text, DateTime postDateTime)
+    public Message(User sender, Chat chat, string text, DateTime postDateTime)
     {
         Id = Guid.NewGuid();
         Sender = sender;
@@ -25,8 +27,19 @@ public class Message
         _content.Add(newContent);
     }
 
-    public void RemoveContent(Content oldContent)
+    public bool RemoveContent(Content removableContent)
     {
-        _content.Remove(oldContent);
+        if (removableContent is null)
+        {
+            throw new DomainException("No content to remove");
+        }
+
+        if (!_content.Contains(removableContent))
+        {
+            return false;
+        }
+        
+        _content.Remove(removableContent);
+        return true;
     }
 }
