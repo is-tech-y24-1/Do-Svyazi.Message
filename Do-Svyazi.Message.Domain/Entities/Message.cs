@@ -9,7 +9,7 @@ public class Message
     private DateTime PostDateTime { get; }
     private Content[] Content { get; }
 
-    public Message(Guid id, Guid userId, Guid chatId, string text, DateTime postDateTime, Content[] content)
+    protected Message(Guid id, Guid userId, Guid chatId, string text, DateTime postDateTime, Content[] content)
     {
         Id = id;
         UserId = userId;
