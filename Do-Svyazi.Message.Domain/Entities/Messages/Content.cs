@@ -2,12 +2,14 @@
 
 public class Content
 {
-    private Uri Uri { get; }
-    private string Name { get; }
-    private ContentType Type { get; }
+    public Guid Id { get; }
+    public Uri Uri { get; }
+    public string Name { get; }
+    public ContentType Type { get; }
 
     public Content(Uri uri, string name, ContentType type)
     {
+        Id = Guid.NewGuid();
         Uri = uri;
         Name = name;
         Type = type;
