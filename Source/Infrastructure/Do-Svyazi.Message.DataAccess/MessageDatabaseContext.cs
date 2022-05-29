@@ -6,7 +6,7 @@ namespace Do_Svyazi.Message.DataAccess;
 
 public sealed class MessageDatabaseContext : DbContext, IMessageDatabaseContext
 {
-    public MessageDatabaseContext(DbContextOptions options) : base(options)
+    public MessageDatabaseContext(DbContextOptions<MessageDatabaseContext> options) : base(options)
     {
         Database.EnsureCreated();
     }
