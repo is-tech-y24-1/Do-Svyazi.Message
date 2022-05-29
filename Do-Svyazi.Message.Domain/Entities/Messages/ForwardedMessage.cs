@@ -8,8 +8,7 @@ public class ForwardedMessage : Message
         ChatUser sender,
         string text,
         DateTime postDateTime,
-        List<Content> contents,
-        Message message) : base(sender, text, postDateTime, contents)
+        Message message) : base(sender, text, postDateTime)
     {
         Message = message;
     }
