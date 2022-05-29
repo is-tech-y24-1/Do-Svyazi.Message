@@ -6,13 +6,13 @@ public class Message
 {
     private List<Content> _contents;
 
-    public Message(ChatUser sender, string text, DateTime postDateTime, List<Content> contents)
+    public Message(ChatUser sender, string text, DateTime postDateTime)
     {
         Id = Guid.NewGuid();
         Sender = sender;
         Text = text;
         PostDateTime = postDateTime;
-        _contents = contents;
+        _contents = new List<Content>();
     }
 
     public Guid Id { get; }
