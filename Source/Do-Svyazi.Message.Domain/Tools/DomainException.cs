@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Do_Svyazi.Message.Domain.Tools;
+﻿namespace Do_Svyazi.Message.Domain.Tools;
 
 public class DomainException : Exception
 {
