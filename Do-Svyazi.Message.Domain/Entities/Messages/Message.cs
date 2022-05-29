@@ -19,7 +19,7 @@ public class Message
     public ChatUser Sender { get; }
     public string Text { get; }
     public DateTime PostDateTime { get; }
-    public IReadOnlyCollection<Content> Contents => _contents;
+    public IReadOnlyCollection<Content> Contents => _contents.AsReadOnly();
 
     public void AddContent(Content newContent)
     {
