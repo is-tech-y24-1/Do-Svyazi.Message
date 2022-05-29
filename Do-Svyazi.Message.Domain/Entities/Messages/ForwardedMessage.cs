@@ -4,8 +4,11 @@ public class ForwardedMessage : Message
 {
     public Message Message { get; }
 
-    public ForwardedMessage(User sender, Chat chat, string text, DateTime postDateTime,
-        Message message) : base(sender, chat, text, postDateTime)
+    public ForwardedMessage(
+        ChatUser sender,
+        string text,
+        DateTime postDateTime,
+        Message message) : base(sender, text, postDateTime)
     {
         Message = message;
     }
