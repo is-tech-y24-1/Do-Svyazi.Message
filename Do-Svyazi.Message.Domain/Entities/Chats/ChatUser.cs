@@ -2,16 +2,17 @@
 
 public class ChatUser
 {
-    public User User { get; }
-    public Chat Chat { get; }
     private List<Message> _userMessages;
-    public Message? LastReadMessage { get; set; }
-    public IReadOnlyCollection<Message> UserMessages => _userMessages;
 
-    public ChatUser(User user, Chat chat, List<Message> userMessages)
+    public ChatUser(User user, Chat chat)
     {
         User = user;
         Chat = chat;
-        _userMessages = userMessages;
+        _userMessages = new List<Message>();
     }
+    
+    public User User { get; }
+    public Chat Chat { get; }
+    public Message? LastReadMessage { get; set; }
+    public IReadOnlyCollection<Message> UserMessages => _userMessages.AsReadOnly();
 }
