@@ -8,9 +8,10 @@ public class ChatUser
     public Message? LastReadMessage { get; set; }
     public IReadOnlyCollection<Message> UserMessages => _userMessages;
 
-    public ChatUser(User user, Chat chat)
+    public ChatUser(User user, Chat chat, List<Message> userMessages)
     {
         User = user;
         Chat = chat;
+        _userMessages = userMessages;
     }
 }

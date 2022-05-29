@@ -4,25 +4,26 @@ namespace Do_Svyazi.Message.Domain.Entities;
 
 public class Message
 {
-    private List<Content> _content;
+    private List<Content> _contents;
 
-    public Message(ChatUser sender, string text, DateTime postDateTime)
+    public Message(ChatUser sender, string text, DateTime postDateTime, List<Content> contents)
     {
         Id = Guid.NewGuid();
         Sender = sender;
         Text = text;
         PostDateTime = postDateTime;
+        _contents = contents;
     }
 
     public Guid Id { get; }
     public ChatUser Sender { get; }
     public string Text { get; }
     public DateTime PostDateTime { get; }
-    public IReadOnlyCollection<Content> Content => _content;
+    public IReadOnlyCollection<Content> Contents => _contents;
 
     public void AddContent(Content newContent)
     {
-        _content.Add(newContent);
+        _contents.Add(newContent);
     }
 
     public void RemoveContent(Content removableContent)
@@ -32,7 +33,7 @@ public class Message
             throw new DomainException("No content to remove");
         }
 
-        if (!_content.Remove(removableContent))
+        if (!_contents.Remove(removableContent))
         {
             throw new DomainException("No such content to delete");
         }
