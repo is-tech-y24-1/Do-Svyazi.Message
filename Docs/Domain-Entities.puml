@@ -1,3 +1,54 @@
 @startuml Domain Entities
+package Messages {
+    Message <|-- ForwardedMessage
+    
+    class Message{
+        - List<Content> Contents
+        + Guid Id
+        + ChatUser Sender
+        + string Text
+        + DateTime PostDateTime
+        + void AddContent()
+        + void RemoveContent()
+    }
+    class ForwardedMessage {
+        + Message
+    }
+    
+    enum ContentType {
+        Image
+        Video
+        File
+        Audio
+    }
+    
+    class Content {
+        + Guid Id
+        + Uri Uri
+        + ContentType Type
+    }
+    
+    Content *-- ContentType
+    Message *-- Content
+}
 
+package Chats{
+    class Chat{
+        + Guid Id
+    }
+    
+    class User{
+        + Guid Id
+    }
+    
+    class ChatUser {
+        + User Sender
+        + Chat Chat
+        + Message? LastReadMessage
+        - List<Message> UserMessages
+    }
+    
+    ChatUser *-- Chat
+    ChatUser *-- User
+}
 @enduml
