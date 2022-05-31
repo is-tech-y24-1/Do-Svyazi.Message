@@ -7,4 +7,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Do-Svyazi.Message.Domain\Do-Svyazi.Message.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
