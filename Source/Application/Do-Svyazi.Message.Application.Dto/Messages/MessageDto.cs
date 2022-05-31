@@ -16,5 +16,5 @@ public record ForwardedMessageDto
     string Text,
     DateTime PostDateTime,
     IReadOnlyCollection<ContentDto> Contents,
-    MessageDto ForwardedMessage
+    Guid ForwardedMessageId
 ) : MessageDto(Id, SenderId, Text, PostDateTime, Contents);
