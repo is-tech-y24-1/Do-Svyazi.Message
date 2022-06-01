@@ -5,9 +5,9 @@ namespace Do_Svyazi.Message.Application.CQRS.Messages.Queries;
 
 public static class GetChatMessages
 {
-    public record Query(Guid UserId, Guid ChatId, long Cursor, int Count) : IRequest<Response>;
+    public record Query(Guid UserId, Guid ChatId, DateTime Cursor, int Count) : IRequest<Response>;
 
-    public record Response(IReadOnlyCollection<MessageDto> Messages, long Cursor);
+    public record Response(IReadOnlyCollection<MessageDto> Messages, DateTime Cursor);
 
     // public class Handler : IRequestHandler<Query, Response>
     // {
