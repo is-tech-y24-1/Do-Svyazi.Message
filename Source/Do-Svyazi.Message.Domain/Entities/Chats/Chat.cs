@@ -2,10 +2,12 @@
 
 public class Chat
 {
-    public Guid Id { get; }
-
     public Chat(Guid id)
     {
         Id = id;
     }
+
+    protected Chat() { }
+
+    public Guid Id { get; protected init; }
 }

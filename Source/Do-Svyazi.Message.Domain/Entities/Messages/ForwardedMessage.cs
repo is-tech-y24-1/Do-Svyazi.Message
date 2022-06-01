@@ -2,8 +2,6 @@
 
 public class ForwardedMessage : Message
 {
-    public Message Message { get; }
-
     public ForwardedMessage(
         ChatUser sender,
         string text,
@@ -12,4 +10,10 @@ public class ForwardedMessage : Message
     {
         Message = message;
     }
+
+#pragma warning disable CS8618
+    protected ForwardedMessage() { }
+#pragma warning restore CS8618
+
+    public virtual Message Message { get; protected init; }
 }

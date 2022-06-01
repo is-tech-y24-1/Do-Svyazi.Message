@@ -4,7 +4,7 @@ namespace Do_Svyazi.Message.Domain.Entities;
 
 public class Message
 {
-    private List<Content> _contents;
+    private readonly List<Content> _contents;
 
     public Message(ChatUser sender, string text, DateTime postDateTime)
     {
@@ -15,11 +15,15 @@ public class Message
         _contents = new List<Content>();
     }
 
-    public Guid Id { get; }
-    public ChatUser Sender { get; }
-    public string Text { get; }
-    public DateTime PostDateTime { get; }
-    public IReadOnlyCollection<Content> Contents => _contents.AsReadOnly();
+#pragma warning disable CS8618
+    protected Message() { }
+#pragma warning restore CS8618
+
+    public Guid Id { get; protected init; }
+    public virtual ChatUser Sender { get; protected init; }
+    public string Text { get; protected init; }
+    public DateTime PostDateTime { get; protected init; }
+    public virtual IReadOnlyCollection<Content> Contents => _contents.AsReadOnly();
 
     public void AddContent(Content newContent)
     {

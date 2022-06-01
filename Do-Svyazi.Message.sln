@@ -34,6 +34,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Client.Ht
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Client.Tcp", "Source\Presentation\Client\Do-Svyazi.Message.Client.Tcp\Do-Svyazi.Message.Client.Tcp.csproj", "{7C1BB1FA-D30C-4481-B601-529C8C9DD341}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E838AF9C-103C-4697-BDC2-452150D71E65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Tests.DataAccess", "Source\Tests\Do-Svyazi.Message.Tests.DataAccess\Do-Svyazi.Message.Tests.DataAccess.csproj", "{E8C38083-A5C9-44CE-9AF3-4EC707A96DF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +92,10 @@ Global
 		{7C1BB1FA-D30C-4481-B601-529C8C9DD341}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C1BB1FA-D30C-4481-B601-529C8C9DD341}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C1BB1FA-D30C-4481-B601-529C8C9DD341}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C38083-A5C9-44CE-9AF3-4EC707A96DF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C38083-A5C9-44CE-9AF3-4EC707A96DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C38083-A5C9-44CE-9AF3-4EC707A96DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C38083-A5C9-44CE-9AF3-4EC707A96DF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F1EF26C5-D3EC-490A-BC0C-D4E08927D39B} = {064C36BA-7B97-446E-AA3D-633EAE8ECB57}
@@ -103,5 +111,6 @@ Global
 		{E0AB0262-1737-4C02-BD53-7452A3041AB9} = {F6CEB5F1-B026-4755-A2EF-913734508B89}
 		{732E3B3E-8900-410F-83B2-AB37A1734F0C} = {E0AB0262-1737-4C02-BD53-7452A3041AB9}
 		{7C1BB1FA-D30C-4481-B601-529C8C9DD341} = {E0AB0262-1737-4C02-BD53-7452A3041AB9}
+		{E8C38083-A5C9-44CE-9AF3-4EC707A96DF8} = {E838AF9C-103C-4697-BDC2-452150D71E65}
 	EndGlobalSection
 EndGlobal
