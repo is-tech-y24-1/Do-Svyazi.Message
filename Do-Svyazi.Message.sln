@@ -38,7 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E838AF9C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Tests.DataAccess", "Source\Tests\Do-Svyazi.Message.Tests.DataAccess\Do-Svyazi.Message.Tests.DataAccess.csproj", "{E8C38083-A5C9-44CE-9AF3-4EC707A96DF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Services", "Source\Infrastructure\Do-Svyazi.Message.Services\Do-Svyazi.Message.Services.csproj", "{ED4533FB-24E7-4944-977C-D747064B573E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Application.Services", "Source\Application\Do-Svyazi.Message.Application.Services\Do-Svyazi.Message.Application.Services.csproj", "{ED4533FB-24E7-4944-977C-D747064B573E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +118,6 @@ Global
 		{732E3B3E-8900-410F-83B2-AB37A1734F0C} = {E0AB0262-1737-4C02-BD53-7452A3041AB9}
 		{7C1BB1FA-D30C-4481-B601-529C8C9DD341} = {E0AB0262-1737-4C02-BD53-7452A3041AB9}
 		{E8C38083-A5C9-44CE-9AF3-4EC707A96DF8} = {E838AF9C-103C-4697-BDC2-452150D71E65}
-		{ED4533FB-24E7-4944-977C-D747064B573E} = {AF5AC0C1-535A-4127-9FE3-550D155E4B61}
+		{ED4533FB-24E7-4944-977C-D747064B573E} = {064C36BA-7B97-446E-AA3D-633EAE8ECB57}
 	EndGlobalSection
 EndGlobal

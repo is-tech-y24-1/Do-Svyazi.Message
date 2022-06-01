@@ -3,9 +3,9 @@ using Do_Svyazi.Message.Application.Abstractions.Exceptions.NotFound;
 using Do_Svyazi.Message.Application.Abstractions.Integrations;
 using Do_Svyazi.Message.Application.Abstractions.Services;
 
-namespace Do_Svyazi.Message.Services;
+namespace Do_Svyazi.Message.Application.Services;
 
-public class MessageService : IMessageService
+internal class MessageService : IMessageService
 {
     private readonly IMessageDatabaseContext _context;
     private readonly IAuthorizationService _authorizationService;
