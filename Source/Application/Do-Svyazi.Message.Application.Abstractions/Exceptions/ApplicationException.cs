@@ -1,6 +1,6 @@
 ﻿using Do_Svyazi.Message.Domain.Tools;
 
-namespace Do_Svyazi.Message.Application.Abstractions.Tools;
+namespace Do_Svyazi.Message.Application.Abstractions.Exceptions;
 
 public abstract class ApplicationException : DomainException
 {
