@@ -1,3 +1,4 @@
+using Do_Svyazi.Message.Application.Abstractions.Integrations;
 using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
 using MediatR;
 
@@ -9,8 +10,20 @@ public static class GetUserModel
 
     public record Response(UserModel UserModel);
 
-    // public class Handler : IRequestHandler<Query, Response>
-    // {
-    //     public async Task<Response> Handle(Query request, CancellationToken cancellationToken) { }
-    // }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IAuthenticationService _authenticationService;
+
+        public Handler(IAuthenticationService authenticationService)
+        {
+            _authenticationService = authenticationService;
+        }
+
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            var userModel = await _authenticationService.AuthenticateAsync(request.Credentials, cancellationToken);
+
+            return new Response(userModel);
+        }
+    }
 }
