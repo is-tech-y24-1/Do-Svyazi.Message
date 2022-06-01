@@ -10,10 +10,12 @@ public static class AddMessage
         Guid ChatId,
         string Text,
         DateTime PostDateTime,
-        IReadOnlyCollection<ContentDto> Contents) : IRequest;
+        IReadOnlyCollection<ContentDto> Contents) : IRequest<Response>;
 
-    // public class Handler : IRequestHandler<Command>
+    public record Response(MessageDto Message);
+
+    // public class Handler : IRequestHandler<Command, Response>
     // {
-    //     public async Task<Unit> Handle(Command request, CancellationToken cancellationToken) { }
+    //     public async Task<Response> Handle(Command request, CancellationToken cancellationToken) { }
     // }
 }
