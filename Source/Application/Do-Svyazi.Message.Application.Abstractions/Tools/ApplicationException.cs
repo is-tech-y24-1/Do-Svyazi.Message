@@ -2,11 +2,11 @@
 
 namespace Do_Svyazi.Message.Application.Abstractions.Tools;
 
-public class ApplicationException : DomainException
+public abstract class ApplicationException : DomainException
 {
-    public ApplicationException() { }
-    
-    public ApplicationException(string? message, Exception? innerException) : base(message, innerException) { }
-    
-    public ApplicationException(string? message) : base(message) { }
+    protected ApplicationException() { }
+
+    protected ApplicationException(string? message, Exception? innerException) : base(message, innerException) { }
+
+    protected ApplicationException(string? message) : base(message) { }
 }

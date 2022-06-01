@@ -1,6 +1,6 @@
 ﻿namespace Do_Svyazi.Message.Application.Abstractions.Tools;
 
-abstract class UnauthorizedException : ApplicationException
+public abstract class UnauthorizedException : ApplicationException
 {
     protected UnauthorizedException() { }
 

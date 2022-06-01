@@ -1,6 +1,6 @@
 ﻿namespace Do_Svyazi.Message.Application.Abstractions.Tools;
 
-abstract class InvalidRequestException : ApplicationException
+public abstract class InvalidRequestException : ApplicationException
 {
     protected InvalidRequestException() { }
 
