@@ -1,18 +1,16 @@
-﻿using Do_Svyazi.Message.Domain.Tools;
-
-namespace Do_Svyazi.Message.Domain.Entities;
+﻿namespace Do_Svyazi.Message.Domain.Entities;
 
 public class Message
 {
     private readonly List<Content> _contents;
 
-    public Message(ChatUser sender, string text, DateTime postDateTime)
+    public Message(ChatUser sender, string text, DateTime postDateTime, IEnumerable<Content> contents)
     {
         Id = Guid.NewGuid();
         Sender = sender;
         Text = text;
         PostDateTime = postDateTime;
-        _contents = new List<Content>();
+        _contents = contents.ToList();
     }
 
 #pragma warning disable CS8618
@@ -21,25 +19,22 @@ public class Message
 
     public Guid Id { get; protected init; }
     public virtual ChatUser Sender { get; protected init; }
-    public string Text { get; protected init; }
+    public string Text { get; protected set; }
     public DateTime PostDateTime { get; protected init; }
     public virtual IReadOnlyCollection<Content> Contents => _contents.AsReadOnly();
 
-    public void AddContent(Content newContent)
+    public void UpdateText(string text)
     {
-        _contents.Add(newContent);
+        ArgumentNullException.ThrowIfNull(text);
+        
+        Text = text;
     }
 
-    public void RemoveContent(Content removableContent)
+    public void UpdateContent(IEnumerable<Content> contents)
     {
-        if (removableContent is null)
-        {
-            throw new DomainException("No content to remove");
-        }
+        ArgumentNullException.ThrowIfNull(contents);
 
-        if (!_contents.Remove(removableContent))
-        {
-            throw new DomainException("No such content to delete");
-        }
+        _contents.Clear();
+        _contents.AddRange(contents);
     }
 }

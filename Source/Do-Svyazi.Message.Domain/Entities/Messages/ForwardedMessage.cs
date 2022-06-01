@@ -6,7 +6,8 @@ public class ForwardedMessage : Message
         ChatUser sender,
         string text,
         DateTime postDateTime,
-        Message message) : base(sender, text, postDateTime)
+        IEnumerable<Content> contents,
+        Message message) : base(sender, text, postDateTime, contents)
     {
         Message = message;
     }
