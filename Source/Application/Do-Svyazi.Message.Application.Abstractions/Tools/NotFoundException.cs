@@ -1,10 +1,10 @@
 ﻿namespace Do_Svyazi.Message.Application.Abstractions.Tools;
 
-public class NotFoundException : ApplicationException
+abstract class NotFoundException : ApplicationException
 {
-    public NotFoundException() { }
-    
-    public NotFoundException(string? message, Exception? innerException) : base(message, innerException) { }
-    
-    public NotFoundException(string? message) : base(message) { }
+    protected NotFoundException() { }
+
+    protected NotFoundException(string? message, Exception? innerException) : base(message, innerException) { }
+
+    protected NotFoundException(string? message) : base(message) { }
 }
