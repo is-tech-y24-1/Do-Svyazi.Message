@@ -1,7 +1,6 @@
 using AutoMapper;
 using Do_Svyazi.Message.Application.Abstractions.DataAccess;
-using Do_Svyazi.Message.Application.Abstractions.Integrations;
-using Do_Svyazi.Message.Application.CQRS.Exceptions;
+using Do_Svyazi.Message.Application.Abstractions.Services;
 using Do_Svyazi.Message.Application.Dto.Messages;
 using Do_Svyazi.Message.Domain.Entities;
 using MediatR;
@@ -15,40 +14,24 @@ public static class UpdateMessageContent
     public class Handler : IRequestHandler<Command>
     {
         private readonly IMessageDatabaseContext _context;
-        private readonly IAuthorizationService _authorizationService;
+        private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
 
-        public Handler(IMessageDatabaseContext context, IAuthorizationService authorizationService, IMapper mapper)
+        public Handler(
+            IMessageDatabaseContext context,
+            IMapper mapper,
+            IMessageService messageService)
         {
             _context = context;
-            _authorizationService = authorizationService;
             _mapper = mapper;
+            _messageService = messageService;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var (userId, messageId, contentDtos) = request;
 
-            var user = await _context.Users
-                .FindAsync(new object[] { userId }, cancellationToken)
-                .ConfigureAwait(false);
-
-            if (user is null)
-                throw new UserNotFoundException(userId);
-
-            var message = await _context.Messages
-                .FindAsync(new object[] { messageId }, cancellationToken)
-                .ConfigureAwait(false);
-
-            if (message is null)
-                throw new MessageNotFoundException(messageId);
-
-            if (!message.Sender.User.Equals(user))
-            {
-                await _authorizationService
-                    .AuthorizeMessageEditAsync(user, message.Sender.Chat, cancellationToken)
-                    .ConfigureAwait(false);
-            }
+            var message = await _messageService.AuthorizeMessageToEdit(userId, messageId, cancellationToken);
 
             IEnumerable<Content> contents = contentDtos.Select(_mapper.Map<Content>);
             message.UpdateContent(contents);

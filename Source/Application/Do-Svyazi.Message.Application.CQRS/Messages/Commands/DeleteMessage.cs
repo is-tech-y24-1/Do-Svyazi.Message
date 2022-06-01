@@ -1,6 +1,6 @@
 using Do_Svyazi.Message.Application.Abstractions.DataAccess;
+using Do_Svyazi.Message.Application.Abstractions.Exceptions.NotFound;
 using Do_Svyazi.Message.Application.Abstractions.Integrations;
-using Do_Svyazi.Message.Application.CQRS.Exceptions;
 using MediatR;
 
 namespace Do_Svyazi.Message.Application.CQRS.Messages.Commands;

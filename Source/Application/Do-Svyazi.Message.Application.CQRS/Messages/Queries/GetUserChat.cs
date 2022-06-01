@@ -1,5 +1,5 @@
 using AutoMapper;
-using Do_Svyazi.Message.Application.Abstractions.EntityManagers;
+using Do_Svyazi.Message.Application.Abstractions.Services;
 using Do_Svyazi.Message.Application.Dto.Chats;
 using MediatR;
 
@@ -13,19 +13,19 @@ public static class GetUserChat
 
     public class Handler : IRequestHandler<Query, Response>
     {
-        private readonly IChatUserManager _chatUserManager;
+        private readonly IChatUserService _chatUserService;
         private readonly IMapper _mapper;
 
-        public Handler(IMapper mapper, IChatUserManager chatUserManager)
+        public Handler(IMapper mapper, IChatUserService chatUserService)
         {
             _mapper = mapper;
-            _chatUserManager = chatUserManager;
+            _chatUserService = chatUserService;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             var (userId, chatId) = request;
-            var chatUser = await _chatUserManager
+            var chatUser = await _chatUserService
                 .GetChatUser(chatId, userId, cancellationToken)
                 .ConfigureAwait(false);
 

@@ -1,8 +1,8 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Do_Svyazi.Message.Application.Abstractions.DataAccess;
-using Do_Svyazi.Message.Application.Abstractions.EntityManagers;
 using Do_Svyazi.Message.Application.Abstractions.Integrations;
+using Do_Svyazi.Message.Application.Abstractions.Services;
 using Do_Svyazi.Message.Application.Dto.Messages;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,7 @@ public static class GetChatMessages
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IMessageDatabaseContext _context;
-        private readonly IChatUserManager _chatUserManager;
+        private readonly IChatUserService _chatUserService;
         private readonly IAuthorizationService _authorizationService;
         private readonly IMapper _mapper;
 
@@ -26,19 +26,19 @@ public static class GetChatMessages
             IMessageDatabaseContext context,
             IAuthorizationService authorizationService,
             IMapper mapper,
-            IChatUserManager chatUserManager)
+            IChatUserService chatUserService)
         {
             _context = context;
             _authorizationService = authorizationService;
             _mapper = mapper;
-            _chatUserManager = chatUserManager;
+            _chatUserService = chatUserService;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             var (userId, chatId, cursor, count) = request;
 
-            var chatUser = await _chatUserManager
+            var chatUser = await _chatUserService
                 .GetChatUser(chatId, userId, cancellationToken)
                 .ConfigureAwait(false);
 

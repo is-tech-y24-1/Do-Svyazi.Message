@@ -1,8 +1,8 @@
 using AutoMapper;
 using Do_Svyazi.Message.Application.Abstractions.DataAccess;
-using Do_Svyazi.Message.Application.Abstractions.EntityManagers;
+using Do_Svyazi.Message.Application.Abstractions.Exceptions.NotFound;
 using Do_Svyazi.Message.Application.Abstractions.Integrations;
-using Do_Svyazi.Message.Application.CQRS.Exceptions;
+using Do_Svyazi.Message.Application.Abstractions.Services;
 using Do_Svyazi.Message.Application.Dto.Messages;
 using Do_Svyazi.Message.Domain.Entities;
 using MediatR;
@@ -24,18 +24,18 @@ public static class AddForwardedMessage
     public class Handler : IRequestHandler<Command, Response>
     {
         private readonly IMessageDatabaseContext _context;
-        private readonly IChatUserManager _chatUserManager;
+        private readonly IChatUserService _chatUserService;
         private readonly IAuthorizationService _authorizationService;
         private readonly IMapper _mapper;
 
         public Handler(
             IMessageDatabaseContext context,
-            IChatUserManager chatUserManager,
+            IChatUserService chatUserService,
             IAuthorizationService authorizationService,
             IMapper mapper)
         {
             _context = context;
-            _chatUserManager = chatUserManager;
+            _chatUserService = chatUserService;
             _authorizationService = authorizationService;
             _mapper = mapper;
         }
@@ -44,7 +44,7 @@ public static class AddForwardedMessage
         {
             var (userId, chatId, forwardedMessageId, text, postDateTime, contentDtos) = request;
 
-            var chatUser = await _chatUserManager
+            var chatUser = await _chatUserService
                 .GetChatUser(chatId, userId, cancellationToken)
                 .ConfigureAwait(false);
 

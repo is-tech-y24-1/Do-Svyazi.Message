@@ -1,8 +1,8 @@
 using Do_Svyazi.Message.Domain.Entities;
 
-namespace Do_Svyazi.Message.Application.Abstractions.EntityManagers;
+namespace Do_Svyazi.Message.Application.Abstractions.Services;
 
-public interface IChatUserManager
+public interface IChatUserService
 {
     Task<ChatUser> GetChatUser(Guid chatId, Guid userId, CancellationToken cancellationToken);
 }

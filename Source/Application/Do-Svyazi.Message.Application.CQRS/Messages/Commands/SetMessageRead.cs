@@ -1,6 +1,7 @@
 using Do_Svyazi.Message.Application.Abstractions.DataAccess;
-using Do_Svyazi.Message.Application.Abstractions.EntityManagers;
-using Do_Svyazi.Message.Application.CQRS.Exceptions;
+using Do_Svyazi.Message.Application.Abstractions.Exceptions.InvalidRequest;
+using Do_Svyazi.Message.Application.Abstractions.Exceptions.NotFound;
+using Do_Svyazi.Message.Application.Abstractions.Services;
 using MediatR;
 
 namespace Do_Svyazi.Message.Application.CQRS.Messages.Commands;
@@ -12,19 +13,19 @@ public static class SetMessageRead
     public class Handler : IRequestHandler<Command>
     {
         private readonly IMessageDatabaseContext _context;
-        private readonly IChatUserManager _chatUserManager;
+        private readonly IChatUserService _chatUserService;
 
-        public Handler(IMessageDatabaseContext context, IChatUserManager chatUserManager)
+        public Handler(IMessageDatabaseContext context, IChatUserService chatUserService)
         {
             _context = context;
-            _chatUserManager = chatUserManager;
+            _chatUserService = chatUserService;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var (userId, chatId, messageId) = request;
 
-            var chatUser = await _chatUserManager
+            var chatUser = await _chatUserService
                 .GetChatUser(chatId, userId, cancellationToken)
                 .ConfigureAwait(false);
 

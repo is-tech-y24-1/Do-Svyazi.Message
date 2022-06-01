@@ -1,6 +1,4 @@
-using Do_Svyazi.Message.Application.Abstractions.Exceptions;
-
-namespace Do_Svyazi.Message.Application.CQRS.Exceptions;
+namespace Do_Svyazi.Message.Application.Abstractions.Exceptions.NotFound;
 
 public class MessageNotFoundException : NotFoundException
 {
