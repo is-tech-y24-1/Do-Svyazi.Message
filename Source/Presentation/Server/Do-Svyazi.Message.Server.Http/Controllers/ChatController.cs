@@ -6,13 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Do_Svyazi.Message.Server.Http.Controllers;
 
-public class MessageController : ControllerBase
+public class ChatController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public MessageController(IMediator mediator) => _mediator = mediator;
+    public ChatController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
 
-    [HttpGet("GetCountOfUnreadMessages")]
+    [HttpGet("{chatId}/messages/unread")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<int>> GetCountOfUnreadMessages(Guid userId, Guid chatId)
     {
@@ -21,7 +24,7 @@ public class MessageController : ControllerBase
         return Ok(response.ChatUserState.UnreadMessageCount);
     }
     
-    [HttpGet("GetChatUserState")]
+    [HttpGet("{chatId}/state")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ChatUserStateDto>> GetChatState(Guid userId, Guid chatId)
     {
