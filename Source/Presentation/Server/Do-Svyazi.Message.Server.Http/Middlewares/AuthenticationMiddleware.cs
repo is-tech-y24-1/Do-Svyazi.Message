@@ -24,7 +24,7 @@ public class AuthenticationMiddleware
         await _next(context);
     }
 
-    private async Task AttachUserToContext(HttpContext context, string token, IMediator mediator)
+    private static async Task AttachUserToContext(HttpContext context, string token, IMediator mediator)
     {
         var authenticationCredentials = new AuthenticationCredentials(token);
 
