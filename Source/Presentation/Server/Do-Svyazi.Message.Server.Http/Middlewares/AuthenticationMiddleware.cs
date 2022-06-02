@@ -19,7 +19,7 @@ public class AuthenticationMiddleware
     {
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-        if (token != null)
+        if (token is not null)
             AttachUserToContext(context, token, mediator);
 
         await _next(context);
