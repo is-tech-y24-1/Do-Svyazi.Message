@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Do_Svyazi.Message.Server.Http.Controllers;
 
+[Route("chats")]
+[ApiController]
 public class ChatController : ControllerBase
 {
     private readonly IMediator _mediator;
