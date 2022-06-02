@@ -19,18 +19,18 @@ public class ChatController : ControllerBase
 
     [HttpGet("{chatId}/messages/unread")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<int>> GetCountOfUnreadMessages(Guid userId, Guid chatId)
+    public async Task<ActionResult<int>> GetCountOfUnreadMessages([FromRoute] Guid chatId)
     {
-        var response = await _mediator.Send(new GetChatUserState.Query(userId, chatId));
+        var response = await _mediator.Send(new GetChatUserState.Query(Guid.Empty, chatId));
 
         return Ok(response.ChatUserState.UnreadMessageCount);
     }
     
     [HttpGet("{chatId}/state")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<ChatUserStateDto>> GetChatState(Guid userId, Guid chatId)
+    public async Task<ActionResult<ChatUserStateDto>> GetChatState([FromRoute] Guid chatId)
     {
-        var response = await _mediator.Send(new GetChatUserState.Query(userId, chatId));
+        var response = await _mediator.Send(new GetChatUserState.Query(Guid.Empty, chatId));
 
         return Ok(response.ChatUserState);
     }
