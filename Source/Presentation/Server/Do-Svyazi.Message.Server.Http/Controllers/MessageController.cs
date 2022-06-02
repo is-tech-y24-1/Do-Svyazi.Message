@@ -8,7 +8,7 @@ namespace Do_Svyazi.Message.Server.Http.Controllers;
 
 public class MessageController : ControllerBase
 {
-    private IMediator _mediator;
+    private readonly IMediator _mediator;
 
     public MessageController(IMediator mediator) => _mediator = mediator;
 
