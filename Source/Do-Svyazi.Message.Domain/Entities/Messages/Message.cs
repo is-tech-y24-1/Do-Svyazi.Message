@@ -1,4 +1,6 @@
-﻿namespace Do_Svyazi.Message.Domain.Entities;
+﻿using Do_Svyazi.Message.Domain.Tools;
+
+namespace Do_Svyazi.Message.Domain.Entities;
 
 public class Message
 {
@@ -26,15 +28,16 @@ public class Message
     public void UpdateText(string text)
     {
         ArgumentNullException.ThrowIfNull(text);
-        
+
         Text = text;
     }
 
-    public void UpdateContent(IEnumerable<Content> contents)
-    {
-        ArgumentNullException.ThrowIfNull(contents);
+    public void AddContent(Content content)
+        => _contents.Add(content);
 
-        _contents.Clear();
-        _contents.AddRange(contents);
+    public void RemoveContent(Content content)
+    {
+        if (!_contents.Remove(content))
+            throw new MissingContentException(content, this);
     }
 }
