@@ -25,7 +25,7 @@ public class ChatController : ControllerBase
 
         return Ok(response.ChatUserState.UnreadMessageCount);
     }
-    
+
     [HttpGet("{chatId}/state")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ChatUserStateDto>> GetChatState([FromRoute] Guid chatId)
