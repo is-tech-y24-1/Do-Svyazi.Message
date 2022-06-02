@@ -11,9 +11,10 @@ public class CustomUserIdProvider : IUserIdProvider
 
     public string? GetUserId(HubConnectionContext connection)
     {
-        var user = _mediator.Send(
-            new GetUserModel.Query(
-                new AuthenticationCredentials(connection.GetHttpContext()?.Request.Headers.Authorization)));
+        var jwtToken = connection.GetHttpContext()?.Request.Headers.Authorization;
+        var userCredentials = new AuthenticationCredentials(jwtToken);
+        var userModelQuery = new GetUserModel.Query(userCredentials);
+        var user = _mediator.Send(userModelQuery);
 
         var userModel = user.Result;
         return userModel.UserModel.Id.ToString();
