@@ -2,6 +2,7 @@
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Do_Svyazi.Message.Server.Http.Middlewares;
 
@@ -24,13 +25,13 @@ public class AuthenticationMiddleware
         await _next(context);
     }
 
-    private void AttachUserToContext(HttpContext context, string token, IMediator mediator)
+    private async Task AttachUserToContext(HttpContext context, string token, IMediator mediator)
     {
         var authenticationCredentials = new AuthenticationCredentials(token);
 
-        var response = mediator.Send(new GetUserModel.Query(authenticationCredentials));
+        var response = await mediator.Send(new GetUserModel.Query(authenticationCredentials));
 
-        var user = response.Result.UserModel;
+        var user = response.UserModel;
 
         context.Items["User"] = user;
     }
