@@ -15,7 +15,7 @@ public static class HttpContextExtension
         }
         else
         {
-            throw new AuthenticationException("User not touched");
+            throw new AuthenticationException();
         }
         
     }
