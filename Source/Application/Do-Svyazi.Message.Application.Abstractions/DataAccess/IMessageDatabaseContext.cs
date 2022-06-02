@@ -11,4 +11,6 @@ public interface IMessageDatabaseContext
     
     DbSet<Content> Contents { get; }
     DbSet<Domain.Entities.Message> Messages { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

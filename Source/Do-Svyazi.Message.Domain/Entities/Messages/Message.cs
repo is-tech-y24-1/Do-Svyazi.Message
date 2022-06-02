@@ -6,13 +6,13 @@ public class Message
 {
     private readonly List<Content> _contents;
 
-    public Message(ChatUser sender, string text, DateTime postDateTime)
+    public Message(ChatUser sender, string text, DateTime postDateTime, IEnumerable<Content> contents)
     {
         Id = Guid.NewGuid();
         Sender = sender;
         Text = text;
         PostDateTime = postDateTime;
-        _contents = new List<Content>();
+        _contents = contents.ToList();
     }
 
 #pragma warning disable CS8618
@@ -21,25 +21,23 @@ public class Message
 
     public Guid Id { get; protected init; }
     public virtual ChatUser Sender { get; protected init; }
-    public string Text { get; protected init; }
+    public string Text { get; protected set; }
     public DateTime PostDateTime { get; protected init; }
     public virtual IReadOnlyCollection<Content> Contents => _contents.AsReadOnly();
 
-    public void AddContent(Content newContent)
+    public void UpdateText(string text)
     {
-        _contents.Add(newContent);
+        ArgumentNullException.ThrowIfNull(text);
+
+        Text = text;
     }
 
-    public void RemoveContent(Content removableContent)
-    {
-        if (removableContent is null)
-        {
-            throw new DomainException("No content to remove");
-        }
+    public void AddContent(Content content)
+        => _contents.Add(content);
 
-        if (!_contents.Remove(removableContent))
-        {
-            throw new DomainException("No such content to delete");
-        }
+    public void RemoveContent(Content content)
+    {
+        if (!_contents.Remove(content))
+            throw new MissingContentException(content, this);
     }
 }
