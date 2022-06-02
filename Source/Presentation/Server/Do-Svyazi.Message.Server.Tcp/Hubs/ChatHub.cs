@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace Do_Svyazi.Message.Server.Tcp.Hubs;
 
 [Authorize]
-public class ChatHub : Hub<ChatUserDto>
+public class ChatHub : Hub
 {
     [CustomFilter]
     public override Task OnConnectedAsync()
@@ -26,13 +26,13 @@ public class ChatHub : Hub<ChatUserDto>
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
-        await Clients.Group(groupName).NotifyAsync("Send", $"{Context.ConnectionId} has joined the group {groupName}.");
+        await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} has joined the group {groupName}.");
     }
 
     public async Task RemoveFromGroup(string groupName)
     {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
 
-        await Clients.Group(groupName).NotifyAsync("Send", $"{Context.ConnectionId} has left the group {groupName}.");
+        await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} has left the group {groupName}.");
     }
 }
