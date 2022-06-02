@@ -8,7 +8,7 @@ namespace Do_Svyazi.Message.Server.Tcp.Filters;
 
 public class StartUpFilter : IHubFilter
 {
-    private Mediator _mediator;
+    private readonly Mediator _mediator;
 
     public Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
     {
