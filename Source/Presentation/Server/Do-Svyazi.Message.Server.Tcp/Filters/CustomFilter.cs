@@ -1,34 +1,18 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
+using Do_Svyazi.Message.Application.CQRS.Users.Queries;
+using MediatR;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Do_Svyazi.Message.Server.Tcp.Filters;
 
 public class CustomFilter : IHubFilter
 {
     public async ValueTask<object> InvokeMethodAsync(
-        HubInvocationContext invocationContext, Func<HubInvocationContext, ValueTask<object>> next)
+        HubInvocationContext context, Func<HubInvocationContext, ValueTask<object>> next, IMediator mediator)
     {
-        Console.WriteLine($"Calling hub method '{invocationContext.HubMethodName}'");
-        try
-        {
-            return await next(invocationContext);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Exception calling '{invocationContext.HubMethodName}': {ex}");
-            throw;
-        }
-    }
-
-    // Optional method
-    public Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
-    {
-        return next(context);
-    }
-
-    // Optional method
-    public Task OnDisconnectedAsync(
-        HubLifetimeContext context, Exception exception, Func<HubLifetimeContext, Exception, Task> next)
-    {
-        return next(context, exception);
+        var userName = context.Context.User?.Identity?.Name;
+        var response = mediator.Send(new GetUserModel.Query(new AuthenticationCredentials(userName)));
+        context.Context.Items.Add(userName, response); // че ?
+        return await next(context);
     }
 }

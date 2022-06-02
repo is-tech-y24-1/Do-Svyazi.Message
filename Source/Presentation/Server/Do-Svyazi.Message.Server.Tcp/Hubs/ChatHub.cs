@@ -1,21 +1,20 @@
-﻿using Do_Svyazi.Message.Application.CQRS.Users.Queries;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Do_Svyazi.Message.Application.Dto.Chats;
 using Do_Svyazi.Message.Application.Dto.Messages;
+using Do_Svyazi.Message.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Do_Svyazi.Message.Server.Tcp.Hubs;
 
 [Authorize]
-public class ChatHub : Hub<ICommunicationHub>
+public class ChatHub : Hub<ChatUserDto>
 {
-    public override async Task OnConnectedAsync()
+    [CustomFilter]
+    public override Task OnConnectedAsync()
     {
-        var userName = Context.User?.Identity?.Name;
-        var userQuery = GetUserModel.Query(userName);
-        var connectionId = Context.ConnectionId;
-        await Groups.AddToGroupAsync(connectionId, Context.);
-        await base.OnConnectedAsync();
+        return base.OnConnectedAsync();
     }
 
     public async Task SendMessageAsync(MessageDto messageDto)
