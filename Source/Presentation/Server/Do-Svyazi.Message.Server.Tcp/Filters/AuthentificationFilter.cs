@@ -7,9 +7,14 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Do_Svyazi.Message.Server.Tcp.Filters;
 
-public class AuthentificationFilter : IHubFilter
+public class AuthenticationFilter : IHubFilter
 {
-    private readonly Mediator _mediator;
+    private readonly IMediator _mediator;
+
+    public AuthenticationFilter(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
 
     public Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
     {
@@ -18,7 +23,7 @@ public class AuthentificationFilter : IHubFilter
         var userModelQuery = new GetUserModel.Query(userCredentials);
         var userModel = _mediator.Send(userModelQuery);
 
-        context.Context.Items.Add(userModel, userModel);
+        context.Context.Items["UserModel"] = userModel;
         return next(context);
     }
 }

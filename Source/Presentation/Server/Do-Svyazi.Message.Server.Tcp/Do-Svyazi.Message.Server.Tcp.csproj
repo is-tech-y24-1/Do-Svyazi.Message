@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Application\Do-Svyazi.Message.Application.CQRS\Do-Svyazi.Message.Application.CQRS.csproj" />
+      <ProjectReference Include="..\..\..\Infrastructure\Do-Svyazi.Message.DataAccess\Do-Svyazi.Message.DataAccess.csproj" />
     </ItemGroup>
 
     <ItemGroup>

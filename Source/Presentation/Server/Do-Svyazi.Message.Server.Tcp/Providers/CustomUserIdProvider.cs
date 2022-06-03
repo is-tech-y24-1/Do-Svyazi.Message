@@ -7,7 +7,7 @@ namespace Do_Svyazi.Message.Server.Tcp.Providers;
 
 public class CustomUserIdProvider : IUserIdProvider
 {
-    private readonly Mediator _mediator;
+    private readonly IMediator _mediator;
 
     public string? GetUserId(HubConnectionContext connection)
     {
