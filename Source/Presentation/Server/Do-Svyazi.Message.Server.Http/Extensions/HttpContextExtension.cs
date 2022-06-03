@@ -2,7 +2,7 @@
 using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
 using Microsoft.AspNetCore.Http;
 
-namespace Do_Svyazi.Message.Server.Http.Extension;
+namespace Do_Svyazi.Message.Server.Http.Extensions;
 
 public static class HttpContextExtension
 {
