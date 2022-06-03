@@ -8,6 +8,4 @@ public interface IAuthorizationService
     Task AuthorizeMessageReadAsync(User user, Chat chat, CancellationToken cancellationToken);
     Task AuthorizeMessageEditAsync(User user, Chat chat, CancellationToken cancellationToken);
     Task AuthorizeMessageDeleteAsync(User user, Chat chat, CancellationToken cancellationToken);
-
-    Task<bool> IsUserChatMember(User user, Chat chat, CancellationToken cancellationToken);
 }
