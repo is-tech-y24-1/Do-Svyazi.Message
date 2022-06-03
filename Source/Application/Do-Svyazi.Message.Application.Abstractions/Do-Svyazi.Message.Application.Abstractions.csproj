@@ -15,8 +15,4 @@
       <ProjectReference Include="..\..\Do-Svyazi.Message.Domain\Do-Svyazi.Message.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Exceptions\Unauthorized" />
-    </ItemGroup>
-
 </Project>
