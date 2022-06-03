@@ -17,7 +17,7 @@ public class ExceptionFilter : IHubFilter
         {
             var client = invocationContext.Hub.Clients.Caller;
 
-            await client.SendAsync("ReceiveAsync", e.Message);
+            await client.SendAsync("OnErrorAsync", e.Message);
         }
 
         return ValueTask.CompletedTask;
