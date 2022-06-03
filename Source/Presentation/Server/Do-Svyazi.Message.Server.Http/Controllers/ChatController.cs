@@ -1,5 +1,6 @@
 ﻿using Do_Svyazi.Message.Application.CQRS.Chats.Queries;
 using Do_Svyazi.Message.Application.Dto.Chats;
+using Do_Svyazi.Message.Server.Http.Extension;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,8 @@ public class ChatController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<int>> GetCountOfUnreadMessages([FromRoute] Guid chatId)
     {
-        var response = await _mediator.Send(new GetChatUserState.Query(Guid.Empty, chatId));
+        var user = HttpContext.GetUserModel();
+        var response = await _mediator.Send(new GetChatUserState.Query(user.Id, chatId));
 
         return Ok(response.ChatUserState.UnreadMessageCount);
     }
@@ -30,7 +32,8 @@ public class ChatController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ChatUserStateDto>> GetChatState([FromRoute] Guid chatId)
     {
-        var response = await _mediator.Send(new GetChatUserState.Query(Guid.Empty, chatId));
+        var user = HttpContext.GetUserModel();
+        var response = await _mediator.Send(new GetChatUserState.Query(user.Id, chatId));
 
         return Ok(response.ChatUserState);
     }
