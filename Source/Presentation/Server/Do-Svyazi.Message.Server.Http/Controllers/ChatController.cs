@@ -24,7 +24,7 @@ public class ChatController : ControllerBase
     {
         var user = HttpContext.GetUserModel();
         var query = new GetChatUserState.Query(user.Id, chatId);
-        var response = await _mediator.Send(query);
+        var response = await _mediator.Send(query, HttpContext.RequestAborted);
 
         return Ok(response.ChatUserState.UnreadMessageCount);
     }
@@ -35,7 +35,7 @@ public class ChatController : ControllerBase
     {
         var user = HttpContext.GetUserModel();
         var query = new GetChatUserState.Query(user.Id, chatId);
-        var response = await _mediator.Send(query);
+        var response = await _mediator.Send(query, HttpContext.RequestAborted);
 
         return Ok(response.ChatUserState);
     }
