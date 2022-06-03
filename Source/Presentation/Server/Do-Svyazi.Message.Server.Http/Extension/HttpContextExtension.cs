@@ -1,5 +1,4 @@
-﻿using System.Security.Authentication;
-using Do_Svyazi.Message.Application.Abstractions.Exceptions.NotFound;
+﻿using Do_Svyazi.Message.Application.Abstractions.Exceptions.Unauthorized;
 using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
 using Microsoft.AspNetCore.Http;
 
@@ -15,7 +14,7 @@ public static class HttpContextExtension
         }
         else
         {
-            throw new AuthenticationException();
+            throw new UnauthenticatedException();
         }
         
     }
