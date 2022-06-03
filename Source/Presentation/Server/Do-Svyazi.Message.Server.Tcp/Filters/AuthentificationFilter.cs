@@ -2,6 +2,7 @@
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
 using Do_Svyazi.Message.Server.Tcp.Providers;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 
@@ -16,14 +17,24 @@ public class AuthenticationFilter : IHubFilter
         _mediator = mediator;
     }
 
-    public Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
+    public async Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
     {
-        var jwtToken = context.Context.GetHttpContext()?.Request.Headers.Authorization;
-        var userCredentials = new AuthenticationCredentials(jwtToken);
-        var userModelQuery = new GetUserModel.Query(userCredentials);
-        var userModel = _mediator.Send(userModelQuery);
+        var token = context.Context.GetHttpContext()?.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-        context.Context.Items["UserModel"] = userModel;
-        return next(context);
+        if (token is not null)
+            await AttachUserToContext(context.Context.GetHttpContext(), token, _mediator);
+        
+        await next(context);
+    }
+    
+    private static async Task AttachUserToContext(HttpContext context, string token, IMediator mediator)
+    {
+        var authenticationCredentials = new AuthenticationCredentials(token);
+
+        var response = await mediator.Send(new GetUserModel.Query(authenticationCredentials));
+
+        var user = response.UserModel;
+
+        context.Items["User"] = user;
     }
 }

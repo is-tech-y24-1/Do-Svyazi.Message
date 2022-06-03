@@ -9,7 +9,7 @@ public class CustomUserIdProvider : IUserIdProvider
 {
     private readonly IMediator _mediator;
 
-    public string? GetUserId(HubConnectionContext connection)
+    public string GetUserId(HubConnectionContext connection)
     {
         var jwtToken = connection.GetHttpContext()?.Request.Headers.Authorization;
         var userCredentials = new AuthenticationCredentials(jwtToken);
