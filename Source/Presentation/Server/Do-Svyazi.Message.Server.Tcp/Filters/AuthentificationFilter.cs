@@ -1,9 +1,7 @@
 ﻿using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
-using Do_Svyazi.Message.Server.Tcp.Providers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Do_Svyazi.Message.Server.Tcp.Filters;

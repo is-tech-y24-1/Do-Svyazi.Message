@@ -1,6 +1,4 @@
 ﻿using Do_Svyazi.Message.Application.Dto.Messages;
-using Do_Svyazi.Message.DataAccess;
-using Do_Svyazi.Message.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 

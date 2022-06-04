@@ -1,6 +1,4 @@
-﻿using Do_Svyazi.Message.Application.Abstractions.Exceptions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 
 namespace Do_Svyazi.Message.Server.Tcp.Filters;
 
