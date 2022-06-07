@@ -9,36 +9,42 @@ using Microsoft.Extensions.Options;
 
 namespace Do_Svyazi.Message.Server.Tcp.Authentication;
 
-public class ChatAuthHandler : AuthenticationHandler<ChatAuthSchemeOptions>
+public class MessageAuthenticationHandler : AuthenticationHandler<ChatAuthSchemeOptions>
 {
     private readonly IMediator _mediator;
 
-    public ChatAuthHandler(IOptionsMonitor<ChatAuthSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder,
+    public MessageAuthenticationHandler(IOptionsMonitor<ChatAuthSchemeOptions> options, ILoggerFactory logger,
+        UrlEncoder encoder,
         ISystemClock clock, IMediator mediator) : base(options, logger, encoder, clock)
     {
         _mediator = mediator;
     }
 
-    protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+    protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var isValid = TryAuthenticate(out AuthenticationTicket ticket, out string message);
-
-        return Task.FromResult(isValid ? AuthenticateResult.Success(ticket) : AuthenticateResult.Fail(message));
-    }
-
-    private bool TryAuthenticate(out AuthenticationTicket ticket, out string message)
-    {
-        message = null;
-        ticket = null;
+        var isValid = false;
 
         var token = GetToken();
-        var userId = GetUserModelId(token);
+        if (string.IsNullOrEmpty(token))
+        {
+            var message = "Token is missing";
+            return await Task.FromResult(AuthenticateResult.Fail(message));
+        }
 
-        var claims = new[] {new Claim(ClaimTypes.NameIdentifier, userId.Result)}; // не уверен как правильно
-        var identity = new ClaimsIdentity(claims, nameof(ChatAuthHandler));
-        ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), Scheme.Name);
+        var userId = await GetUserModelId(token);
 
-        return true;
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, userId)
+        };
+
+        var identity = new ClaimsIdentity(claims, nameof(MessageAuthenticationHandler));
+
+        var ticket = new AuthenticationTicket(
+            new ClaimsPrincipal(identity), Scheme.Name
+        );
+
+        return await Task.FromResult(AuthenticateResult.Success(ticket));
     }
 
     private string GetToken()

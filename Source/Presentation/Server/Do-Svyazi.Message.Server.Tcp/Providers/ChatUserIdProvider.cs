@@ -1,4 +1,5 @@
-﻿using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
+﻿using System.Security.Claims;
+using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -11,6 +12,9 @@ public class ChatUserIdProvider : IUserIdProvider
 
     public string GetUserId(HubConnectionContext connection)
     {
-        throw new NotImplementedException();
+        return connection.User.Claims
+            .Where(c => c.Type == ClaimTypes.NameIdentifier)
+            .Select(c => c.Value)
+            .First();
     }
 }
