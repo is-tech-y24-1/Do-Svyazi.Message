@@ -2,6 +2,4 @@
 
 namespace Do_Svyazi.Message.Server.Tcp.Authentication;
 
-public class ChatAuthSchemeOptions : AuthenticationSchemeOptions
-{
-}
+public class ChatAuthSchemeOptions : AuthenticationSchemeOptions { }

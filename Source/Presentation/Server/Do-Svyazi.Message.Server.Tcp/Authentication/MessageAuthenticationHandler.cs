@@ -13,9 +13,12 @@ public class MessageAuthenticationHandler : AuthenticationHandler<ChatAuthScheme
 {
     private readonly IMediator _mediator;
 
-    public MessageAuthenticationHandler(IOptionsMonitor<ChatAuthSchemeOptions> options, ILoggerFactory logger,
+    public MessageAuthenticationHandler(
+        IOptionsMonitor<ChatAuthSchemeOptions> options,
+        ILoggerFactory logger,
         UrlEncoder encoder,
-        ISystemClock clock, IMediator mediator) : base(options, logger, encoder, clock)
+        ISystemClock clock,
+        IMediator mediator) : base(options, logger, encoder, clock)
     {
         _mediator = mediator;
     }

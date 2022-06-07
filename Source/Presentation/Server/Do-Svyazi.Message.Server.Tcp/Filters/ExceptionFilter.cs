@@ -4,7 +4,8 @@ namespace Do_Svyazi.Message.Server.Tcp.Filters;
 
 public class ExceptionFilter : IHubFilter
 {
-    public async ValueTask<object?> InvokeMethodAsync(HubInvocationContext invocationContext,
+    public async ValueTask<object?> InvokeMethodAsync(
+        HubInvocationContext invocationContext,
         Func<HubInvocationContext, ValueTask<object?>> next)
     {
         try

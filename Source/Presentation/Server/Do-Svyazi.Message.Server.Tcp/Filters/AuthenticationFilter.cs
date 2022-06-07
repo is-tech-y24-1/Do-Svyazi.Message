@@ -22,7 +22,7 @@ public class AuthenticationFilter : IHubFilter
             .Where(c => c.Type == ClaimTypes.NameIdentifier)
             .Select(c => c.Value)
             .First();
-        
+
         var authenticationCredentials = new AuthenticationCredentials(userClaim);
 
         var response = await _mediator.Send(new GetUserModel.Query(authenticationCredentials));
