@@ -49,7 +49,7 @@ public class MessageAuthenticationHandler : AuthenticationHandler<ChatAuthScheme
         return AuthenticateResult.Success(ticket);
     }
 
-    private string GetToken()
+    private string? GetToken()
     {
         var token = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 

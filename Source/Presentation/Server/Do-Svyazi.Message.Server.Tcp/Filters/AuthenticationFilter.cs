@@ -9,13 +9,6 @@ namespace Do_Svyazi.Message.Server.Tcp.Filters;
 
 public class AuthenticationFilter : IHubFilter
 {
-    private readonly IMediator _mediator;
-
-    public AuthenticationFilter(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     public async Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
     {
         var userIdClaim = context.Context.User.Claims

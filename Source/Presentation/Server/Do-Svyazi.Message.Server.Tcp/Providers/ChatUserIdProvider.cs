@@ -8,8 +8,6 @@ namespace Do_Svyazi.Message.Server.Tcp.Providers;
 
 public class ChatUserIdProvider : IUserIdProvider
 {
-    private readonly IMediator _mediator;
-
     public string GetUserId(HubConnectionContext connection)
     {
         return connection.User.Claims
