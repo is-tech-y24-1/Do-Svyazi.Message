@@ -11,7 +11,7 @@ public class AuthenticationFilter : IHubFilter
 {
     public async Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
     {
-        var userIdClaim = context.Context.User.Claims
+        var userIdClaim = context.Context.User?.Claims
             .Where(c => c.Type == ClaimTypes.NameIdentifier)
             .Select(c => c.Value)
             .First();
