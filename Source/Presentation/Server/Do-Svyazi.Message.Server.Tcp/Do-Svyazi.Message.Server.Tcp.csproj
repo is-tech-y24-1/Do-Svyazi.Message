@@ -9,15 +9,16 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Application\Do-Svyazi.Message.Application.CQRS\Do-Svyazi.Message.Application.CQRS.csproj" />
+      <ProjectReference Include="..\..\..\Infrastructure\Do-Svyazi.Message.DataAccess\Do-Svyazi.Message.DataAccess.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Hubs" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Filters" />
-      <Folder Include="Hubs" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
     </ItemGroup>
 
 </Project>
