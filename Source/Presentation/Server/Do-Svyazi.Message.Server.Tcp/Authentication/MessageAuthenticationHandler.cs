@@ -31,7 +31,7 @@ public class MessageAuthenticationHandler : AuthenticationHandler<ChatAuthScheme
         if (string.IsNullOrEmpty(token))
         {
             var message = "Token is missing";
-            return await Task.FromResult(AuthenticateResult.Fail(message));
+            return AuthenticateResult.Fail(message);
         }
 
         var userId = await GetUserModelId(token);
@@ -47,7 +47,7 @@ public class MessageAuthenticationHandler : AuthenticationHandler<ChatAuthScheme
             new ClaimsPrincipal(identity), Scheme.Name
         );
 
-        return await Task.FromResult(AuthenticateResult.Success(ticket));
+        return AuthenticateResult.Success(ticket);
     }
 
     private string GetToken()

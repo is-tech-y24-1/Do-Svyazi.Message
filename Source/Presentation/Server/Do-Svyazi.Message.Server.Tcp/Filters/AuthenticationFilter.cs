@@ -18,16 +18,12 @@ public class AuthenticationFilter : IHubFilter
 
     public async Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
     {
-        var userClaim = context.Context.User.Claims
+        var userIdClaim = context.Context.User.Claims
             .Where(c => c.Type == ClaimTypes.NameIdentifier)
             .Select(c => c.Value)
             .First();
 
-        var authenticationCredentials = new AuthenticationCredentials(userClaim);
-
-        var response = await _mediator.Send(new GetUserModel.Query(authenticationCredentials));
-
-        var user = response.UserModel;
+        var user = new UserModel(Guid.Parse(userIdClaim));
 
         context.Context.Items["User"] = user;
 
