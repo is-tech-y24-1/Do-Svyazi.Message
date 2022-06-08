@@ -25,8 +25,6 @@ public class MessageAuthenticationHandler : AuthenticationHandler<ChatAuthScheme
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var isValid = false;
-
         var token = GetToken();
         if (string.IsNullOrEmpty(token))
         {
@@ -42,9 +40,10 @@ public class MessageAuthenticationHandler : AuthenticationHandler<ChatAuthScheme
         };
 
         var identity = new ClaimsIdentity(claims, nameof(MessageAuthenticationHandler));
+        var identityPrincipal = new ClaimsPrincipal(identity);
 
         var ticket = new AuthenticationTicket(
-            new ClaimsPrincipal(identity), Scheme.Name
+            identityPrincipal, Scheme.Name
         );
 
         return AuthenticateResult.Success(ticket);
