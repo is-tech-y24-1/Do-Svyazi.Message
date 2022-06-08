@@ -1,7 +1,4 @@
 ﻿using System.Security.Claims;
-using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
-using Do_Svyazi.Message.Application.CQRS.Users.Queries;
-using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Do_Svyazi.Message.Server.Tcp.Providers;
