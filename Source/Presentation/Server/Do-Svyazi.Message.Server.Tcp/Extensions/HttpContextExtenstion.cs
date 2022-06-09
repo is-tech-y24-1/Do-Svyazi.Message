@@ -12,10 +12,8 @@ public static class HttpContextExtenstion
         {
             return userModel;
         }
-        else
-        {
-            throw new UnauthenticatedException();
-        }
-        
+
+        throw new UnauthenticatedException();
+
     }
 }
