@@ -22,22 +22,22 @@ public class ChatHub : Hub
     {
         var user = Context.GetHttpContext().GetUserModel();
 
-        var chatIds = await _mediator.Send(new GetUserChatIds.Query(user.Id));
+        var response = await _mediator.Send(new GetUserChatIds.Query(user.Id));
 
-        IEnumerable<Task> tasks = chatIds.ChatIds
+        IEnumerable<Task> tasks = response.ChatIds
             .Select(c => Groups.AddToGroupAsync(Context.ConnectionId, c.ToString()));
 
         await Task.WhenAll(tasks);
     }
 
-    public async IAsyncEnumerable<MessageDto> GetMessages(Guid groupId, DateTime cursor, int count)
+    public async IAsyncEnumerable<MessageDto> GetMessages(Guid chatId, DateTime cursor, int count)
     {
         var user = Context.GetHttpContext().GetUserModel();
 
-        var getChatMessagesQuery = new GetChatMessages.Query(user.Id, groupId, cursor, count);
+        var query = new GetChatMessages.Query(user.Id, chatId, cursor, count);
 
-        var messages = await _mediator.Send(getChatMessagesQuery);
-        foreach (var message in messages.Messages)
+        var response = await _mediator.Send(query);
+        foreach (var message in response.Messages)
         {
             yield return message;
         }
