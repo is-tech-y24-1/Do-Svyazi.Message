@@ -1,8 +1,7 @@
-﻿using System.Security.Claims;
-using Do_Svyazi.Message.Application.CQRS.Chats.Queries;
-using Do_Svyazi.Message.Application.CQRS.Messages.Queries;
+﻿using Do_Svyazi.Message.Application.CQRS.Messages.Queries;
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
 using Do_Svyazi.Message.Application.Dto.Messages;
+using Do_Svyazi.Message.Server.Tcp.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -14,38 +13,31 @@ public class ChatHub : Hub
 {
     private readonly IMediator _mediator;
 
-    public override async Task OnConnectedAsync()
+    public ChatHub(IMediator mediator)
     {
-        var userIdClaim = Context.User?.Claims
-            .Where(c => c.Type == ClaimTypes.NameIdentifier)
-            .Select(c => c.Value)
-            .First();
-
-        var chatIds = await _mediator.Send(new GetUserChatIds.Query(Guid.Parse(userIdClaim)));
-
-        foreach (var chatId in chatIds.ChatIds)
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
-        }
-
-        await base.OnConnectedAsync();
+        _mediator = mediator;
     }
 
-    public async IAsyncEnumerable<MessageDto> GetMessages(Guid groupId)
+    public override async Task OnConnectedAsync()
     {
-        var userIdClaim = Context.User?.Claims
-            .Where(c => c.Type == ClaimTypes.NameIdentifier)
-            .Select(c => c.Value)
-            .First();
+        var user = Context.GetHttpContext().GetUserModel();
 
-        var userId = Guid.Parse(userIdClaim);
+        var chatIds = await _mediator.Send(new GetUserChatIds.Query(user.Id));
 
-        var userChatState = await _mediator.Send(new GetChatUserState.Query(userId, groupId));
+        List<Task> addingToGroupsTasks = chatIds.ChatIds
+            .Select(chatId => Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString()))
+            .ToList();
 
-        var cursor = userChatState.ChatUserState.LastMessage.PostDateTime;
-        var amountOfUnread = userChatState.ChatUserState.UnreadMessageCount;
+        await Task.WhenAll(addingToGroupsTasks);
+    }
 
-        var messages = await _mediator.Send(new GetChatMessages.Query(userId, groupId, cursor, amountOfUnread));
+    public async IAsyncEnumerable<MessageDto> GetMessages(Guid groupId, DateTime cursor, int count)
+    {
+        var user = Context.GetHttpContext().GetUserModel();
+
+        var getChatMessagesQuery = new GetChatMessages.Query(user.Id, groupId, cursor, count);
+
+        var messages = await _mediator.Send(getChatMessagesQuery);
         foreach (var message in messages.Messages)
         {
             yield return message;
