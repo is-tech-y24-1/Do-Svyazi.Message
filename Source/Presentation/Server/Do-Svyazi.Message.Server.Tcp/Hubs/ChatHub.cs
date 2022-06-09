@@ -24,11 +24,10 @@ public class ChatHub : Hub
 
         var chatIds = await _mediator.Send(new GetUserChatIds.Query(user.Id));
 
-        List<Task> addingToGroupsTasks = chatIds.ChatIds
-            .Select(chatId => Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString()))
-            .ToList();
+        IEnumerable<Task> tasks = chatIds.ChatIds
+            .Select(c => Groups.AddToGroupAsync(Context.ConnectionId, c.ToString()));
 
-        await Task.WhenAll(addingToGroupsTasks);
+        await Task.WhenAll(tasks);
     }
 
     public async IAsyncEnumerable<MessageDto> GetMessages(Guid groupId, DateTime cursor, int count)
