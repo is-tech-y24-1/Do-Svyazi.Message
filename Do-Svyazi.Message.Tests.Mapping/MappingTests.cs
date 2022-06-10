@@ -11,7 +11,7 @@ namespace Do_Svyazi.Message.Tests.Mapping;
 
 public class MappingTests
 {
-    private IMapper _mapper;
+    private IMapper _mapper = null!;
 
     [SetUp]
     public void Setup()
