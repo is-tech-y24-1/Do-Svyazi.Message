@@ -8,5 +8,7 @@ public static class RegistrationExtensions
     public static void RegisterApplicationServices(this IServiceCollection collection)
     {
         collection.AddScoped<IMessageService, MessageService>();
+        collection.AddScoped<IUserService, UserService>();
+        collection.AddScoped<IChatUserService, ChatUserService>();
     }
 }
