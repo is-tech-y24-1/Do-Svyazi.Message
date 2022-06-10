@@ -24,7 +24,7 @@ public static class UpdateMessage
             var (userId, messageId, newText) = request;
 
             var message = await _messageService
-                .AuthorizeMessageToEdit(userId, messageId, cancellationToken)
+                .AuthorizeMessageToEditAsync(userId, messageId, cancellationToken)
                 .ConfigureAwait(false);
 
             message.UpdateText(newText);

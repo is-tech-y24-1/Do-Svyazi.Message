@@ -38,46 +38,59 @@ public static class UpdateMessageContent
             var (userId, messageId, addedContentDtos, removedContentDtos) = request;
 
             var message = await _messageService
-                .AuthorizeMessageToEdit(userId, messageId, cancellationToken)
+                .AuthorizeMessageToEditAsync(userId, messageId, cancellationToken)
                 .ConfigureAwait(false);
 
             if (addedContentDtos.Count is not 0)
             {
-                IEnumerable<Content> addedContents = addedContentDtos.Select(_mapper.Map<Content>);
-
-                foreach (var content in addedContents)
-                {
-                    message.AddContent(content);
-                }
+                AddContents(message, addedContentDtos);
             }
 
             if (removedContentDtos.Count is not 0)
             {
-                Guid[] removedContentIds = removedContentDtos.Select(c => c.Id).ToArray();
-
-                Content[] removedContents = await _context.Contents
-                    .Where(c => removedContentIds.Contains(c.Id))
-                    .ToArrayAsync(cancellationToken)
-                    .ConfigureAwait(false);
-
-                if (removedContents.Length != removedContentIds.Length)
-                {
-                    IEnumerable<Guid> foundIds = removedContents.Select(c => c.Id);
-                    IEnumerable<Guid> notFoundIds = removedContentIds.Except(foundIds);
-
-                    throw new ContentNotFoundException(notFoundIds);
-                }
-
-                foreach (var content in removedContents)
-                {
-                    message.RemoveContent(content);
-                }
+                await RemoveContents(message, removedContentDtos, cancellationToken).ConfigureAwait(false);
             }
 
             _context.Messages.Update(message);
             await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
             return Unit.Value;
+        }
+
+        private void AddContents(Domain.Entities.Message message, IEnumerable<ContentDto> addedContentDtos)
+        {
+            IEnumerable<Content> addedContents = addedContentDtos.Select(_mapper.Map<Content>);
+
+            foreach (var content in addedContents)
+            {
+                message.AddContent(content);
+            }
+        }
+
+        private async Task RemoveContents(
+            Domain.Entities.Message message,
+            IEnumerable<MessageContentDto> removedContentDtos,
+            CancellationToken cancellationToken)
+        {
+            Guid[] removedContentIds = removedContentDtos.Select(c => c.Id).ToArray();
+
+            Content[] removedContents = await _context.Contents
+                .Where(c => removedContentIds.Contains(c.Id))
+                .ToArrayAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            if (removedContents.Length != removedContentIds.Length)
+            {
+                IEnumerable<Guid> foundIds = removedContents.Select(c => c.Id);
+                IEnumerable<Guid> notFoundIds = removedContentIds.Except(foundIds);
+
+                throw new ContentNotFoundException(notFoundIds);
+            }
+
+            foreach (var content in removedContents)
+            {
+                message.RemoveContent(content);
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ public static class AddForwardedMessage
     {
         private readonly IMessageDatabaseContext _context;
         private readonly IChatUserService _chatUserService;
+        private readonly IMessageService _messageService;
         private readonly IAuthorizationService _authorizationService;
         private readonly IMapper _mapper;
 
@@ -32,12 +33,14 @@ public static class AddForwardedMessage
             IMessageDatabaseContext context,
             IChatUserService chatUserService,
             IAuthorizationService authorizationService,
-            IMapper mapper)
+            IMapper mapper,
+            IMessageService messageService)
         {
             _context = context;
             _chatUserService = chatUserService;
             _authorizationService = authorizationService;
             _mapper = mapper;
+            _messageService = messageService;
         }
 
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
@@ -52,12 +55,9 @@ public static class AddForwardedMessage
                 .AuthorizeMessageSendAsync(chatUser.User, chatUser.Chat, cancellationToken)
                 .ConfigureAwait(false);
 
-            var forwardedMessage = await _context.Messages
-                .FindAsync(new object[] { forwardedMessageId }, cancellationToken)
+            var forwardedMessage = await _messageService
+                .GetMessageAsync(forwardedMessageId, cancellationToken)
                 .ConfigureAwait(false);
-
-            if (forwardedMessage is null)
-                throw new MessageNotFoundException(forwardedMessageId);
 
             IEnumerable<Content> contents = contentDtos.Select(_mapper.Map<Content>);
             var message = new ForwardedMessage(chatUser, text, postDateTime, contents, forwardedMessage);

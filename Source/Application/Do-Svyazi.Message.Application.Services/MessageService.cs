@@ -17,7 +17,19 @@ internal class MessageService : IMessageService
     }
 
 
-    public async Task<Domain.Entities.Message> AuthorizeMessageToEdit(Guid userId, Guid messageId, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.Message> GetMessageAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var message = await _context.Messages
+            .FindAsync(new object[] { id }, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (message is null)
+            throw new MessageNotFoundException(id);
+
+        return message;
+    }
+
+    public async Task<Domain.Entities.Message> AuthorizeMessageToEditAsync(Guid userId, Guid messageId, CancellationToken cancellationToken)
     {
         var user = await _context.Users
             .FindAsync(new object[] { userId }, cancellationToken)

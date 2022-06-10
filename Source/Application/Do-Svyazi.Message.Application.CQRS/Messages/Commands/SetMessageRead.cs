@@ -14,11 +14,13 @@ public static class SetMessageRead
     {
         private readonly IMessageDatabaseContext _context;
         private readonly IChatUserService _chatUserService;
+        private readonly IMessageService _messageService;
 
-        public Handler(IMessageDatabaseContext context, IChatUserService chatUserService)
+        public Handler(IMessageDatabaseContext context, IChatUserService chatUserService, IMessageService messageService)
         {
             _context = context;
             _chatUserService = chatUserService;
+            _messageService = messageService;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -29,12 +31,9 @@ public static class SetMessageRead
                 .GetChatUser(chatId, userId, cancellationToken)
                 .ConfigureAwait(false);
 
-            var message = await _context.Messages
-                .FindAsync(new object[] { messageId }, cancellationToken)
+            var message = await _messageService
+                .GetMessageAsync(messageId, cancellationToken)
                 .ConfigureAwait(false);
-            
-            if (message is null)
-                throw new MessageNotFoundException(messageId);
 
             if (!message.Sender.Chat.Equals(chatUser.Chat))
                 throw new ForeignMessageException(chatId, messageId);
