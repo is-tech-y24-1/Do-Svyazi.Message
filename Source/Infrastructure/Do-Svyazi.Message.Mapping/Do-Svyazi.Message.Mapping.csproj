@@ -13,7 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Profiles" />
+      <ProjectReference Include="..\..\Application\Do-Svyazi.Message.Application.Dto\Do-Svyazi.Message.Application.Dto.csproj" />
+      <ProjectReference Include="..\..\Do-Svyazi.Message.Domain\Do-Svyazi.Message.Domain.csproj" />
     </ItemGroup>
 
 </Project>

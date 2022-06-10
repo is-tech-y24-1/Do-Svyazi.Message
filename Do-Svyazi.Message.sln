@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Tests.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Application.Services", "Source\Application\Do-Svyazi.Message.Application.Services\Do-Svyazi.Message.Application.Services.csproj", "{ED4533FB-24E7-4944-977C-D747064B573E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Tests.Mapping", "Do-Svyazi.Message.Tests.Mapping\Do-Svyazi.Message.Tests.Mapping.csproj", "{469F9A8B-B052-4D8A-80A7-5A30520D9E6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{ED4533FB-24E7-4944-977C-D747064B573E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED4533FB-24E7-4944-977C-D747064B573E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED4533FB-24E7-4944-977C-D747064B573E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{469F9A8B-B052-4D8A-80A7-5A30520D9E6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{469F9A8B-B052-4D8A-80A7-5A30520D9E6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{469F9A8B-B052-4D8A-80A7-5A30520D9E6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{469F9A8B-B052-4D8A-80A7-5A30520D9E6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F1EF26C5-D3EC-490A-BC0C-D4E08927D39B} = {064C36BA-7B97-446E-AA3D-633EAE8ECB57}
@@ -119,5 +125,6 @@ Global
 		{7C1BB1FA-D30C-4481-B601-529C8C9DD341} = {E0AB0262-1737-4C02-BD53-7452A3041AB9}
 		{E8C38083-A5C9-44CE-9AF3-4EC707A96DF8} = {E838AF9C-103C-4697-BDC2-452150D71E65}
 		{ED4533FB-24E7-4944-977C-D747064B573E} = {064C36BA-7B97-446E-AA3D-633EAE8ECB57}
+		{469F9A8B-B052-4D8A-80A7-5A30520D9E6F} = {E838AF9C-103C-4697-BDC2-452150D71E65}
 	EndGlobalSection
 EndGlobal
