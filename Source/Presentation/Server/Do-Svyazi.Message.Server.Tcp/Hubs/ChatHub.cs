@@ -1,6 +1,7 @@
 ﻿using Do_Svyazi.Message.Application.CQRS.Messages.Queries;
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
 using Do_Svyazi.Message.Application.Dto.Messages;
+using Do_Svyazi.Message.Client.Tcp.Interfaces;
 using Do_Svyazi.Message.Server.Tcp.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace Do_Svyazi.Message.Server.Tcp.Hubs;
 
 [Authorize]
-public class ChatHub : Hub
+public class ChatHub : Hub<IChatClient>
 {
     private readonly IMediator _mediator;
 
