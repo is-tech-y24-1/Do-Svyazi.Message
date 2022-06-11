@@ -50,7 +50,7 @@ public class ChatHub : Hub<IChatClient>
         }
     }
 
-    private UserModel GetUserModel(HttpContext? context)
+    private static UserModel GetUserModel(HttpContext? context)
     {
         if (context?.Items["User"] is UserModel userModel)
         {
