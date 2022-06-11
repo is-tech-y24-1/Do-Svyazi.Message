@@ -1,10 +1,12 @@
-﻿using Do_Svyazi.Message.Application.CQRS.Messages.Queries;
+﻿using Do_Svyazi.Message.Application.Abstractions.Exceptions.Unauthorized;
+using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
+using Do_Svyazi.Message.Application.CQRS.Messages.Queries;
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
 using Do_Svyazi.Message.Application.Dto.Messages;
 using Do_Svyazi.Message.Client.Tcp.Interfaces;
-using Do_Svyazi.Message.Server.Tcp.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Do_Svyazi.Message.Server.Tcp.Hubs;
@@ -21,7 +23,9 @@ public class ChatHub : Hub<IChatClient>
 
     public override async Task OnConnectedAsync()
     {
-        var user = Context.GetHttpContext().GetUserModel();
+        var httpContext = Context.GetHttpContext();
+
+        var user = GetUserModel(httpContext);
 
         var response = await _mediator.Send(new GetUserChatIds.Query(user.Id));
 
@@ -33,7 +37,9 @@ public class ChatHub : Hub<IChatClient>
 
     public async IAsyncEnumerable<MessageDto> GetMessages(Guid chatId, DateTime cursor, int count)
     {
-        var user = Context.GetHttpContext().GetUserModel();
+        var httpContext = Context.GetHttpContext();
+
+        var user = GetUserModel(httpContext);
 
         var query = new GetChatMessages.Query(user.Id, chatId, cursor, count);
 
@@ -42,5 +48,15 @@ public class ChatHub : Hub<IChatClient>
         {
             yield return message;
         }
+    }
+
+    private UserModel GetUserModel(HttpContext? context)
+    {
+        if (context?.Items["User"] is UserModel userModel)
+        {
+            return userModel;
+        }
+
+        throw new UnauthenticatedException();
     }
 }
