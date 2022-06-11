@@ -2,7 +2,6 @@
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
 using Do_Svyazi.Message.Application.Dto.Messages;
 using Do_Svyazi.Message.Client.Tcp.Interfaces;
-using Do_Svyazi.Message.Server.Tcp.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -21,9 +20,13 @@ public class ChatHub : Hub<IChatClient>
 
     public override async Task OnConnectedAsync()
     {
-        var user = Context.GetHttpContext().GetUserModel();
+        if (Context.UserIdentifier is null) 
+            return;
 
-        var response = await _mediator.Send(new GetUserChatIds.Query(user.Id));
+        var userId = Guid.Parse(Context.UserIdentifier);
+
+        var query = new GetUserChatIds.Query(userId);
+        var response = await _mediator.Send(query);
 
         IEnumerable<Task> tasks = response.ChatIds
             .Select(c => Groups.AddToGroupAsync(Context.ConnectionId, c.ToString()));
@@ -33,11 +36,14 @@ public class ChatHub : Hub<IChatClient>
 
     public async IAsyncEnumerable<MessageDto> GetMessages(Guid chatId, DateTime cursor, int count)
     {
-        var user = Context.GetHttpContext().GetUserModel();
+        if (Context.UserIdentifier is null) 
+            yield break;
 
-        var query = new GetChatMessages.Query(user.Id, chatId, cursor, count);
+        var userId = Guid.Parse(Context.UserIdentifier);
 
+        var query = new GetChatMessages.Query(userId, chatId, cursor, count);
         var response = await _mediator.Send(query);
+
         foreach (var message in response.Messages)
         {
             yield return message;
