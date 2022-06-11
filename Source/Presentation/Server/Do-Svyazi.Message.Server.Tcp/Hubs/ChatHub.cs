@@ -20,27 +20,24 @@ public class ChatHub : Hub<IChatClient>
 
     public override async Task OnConnectedAsync()
     {
-        var user = Context.UserIdentifier;
-        if (user != null)
-        {
-            var userId = Guid.Parse(user);
+        if (Context.UserIdentifier is null) return;
 
-            var query = new GetUserChatIds.Query(userId);
-            var response = await _mediator.Send(query);
+        var userId = Guid.Parse(Context.UserIdentifier);
 
-            IEnumerable<Task> tasks = response.ChatIds
-                .Select(c => Groups.AddToGroupAsync(Context.ConnectionId, c.ToString()));
+        var query = new GetUserChatIds.Query(userId);
+        var response = await _mediator.Send(query);
 
-            await Task.WhenAll(tasks);
-        }
+        IEnumerable<Task> tasks = response.ChatIds
+            .Select(c => Groups.AddToGroupAsync(Context.ConnectionId, c.ToString()));
+
+        await Task.WhenAll(tasks);
     }
 
     public async IAsyncEnumerable<MessageDto> GetMessages(Guid chatId, DateTime cursor, int count)
     {
-        var user = Context.UserIdentifier;
-        if (user == null) yield break;
+        if (Context.UserIdentifier is null) yield break;
 
-        var userId = Guid.Parse(user);
+        var userId = Guid.Parse(Context.UserIdentifier);
 
         var query = new GetChatMessages.Query(userId, chatId, cursor, count);
         var response = await _mediator.Send(query);
