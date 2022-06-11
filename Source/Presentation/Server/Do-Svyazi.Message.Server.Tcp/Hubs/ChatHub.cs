@@ -20,7 +20,8 @@ public class ChatHub : Hub<IChatClient>
 
     public override async Task OnConnectedAsync()
     {
-        if (Context.UserIdentifier is null) return;
+        if (Context.UserIdentifier is null) 
+            return;
 
         var userId = Guid.Parse(Context.UserIdentifier);
 
@@ -35,7 +36,8 @@ public class ChatHub : Hub<IChatClient>
 
     public async IAsyncEnumerable<MessageDto> GetMessages(Guid chatId, DateTime cursor, int count)
     {
-        if (Context.UserIdentifier is null) yield break;
+        if (Context.UserIdentifier is null) 
+            yield break;
 
         var userId = Guid.Parse(Context.UserIdentifier);
 
