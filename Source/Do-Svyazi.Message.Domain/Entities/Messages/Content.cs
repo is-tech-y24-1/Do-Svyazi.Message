@@ -1,19 +1,17 @@
-﻿namespace Do_Svyazi.Message.Domain.Entities;
+﻿using RichEntity.Annotations;
 
-public class Content
+namespace Do_Svyazi.Message.Domain.Entities;
+
+public partial class Content : IEntity<Guid>
 {
     public Content(Uri uri, ContentType type)
+        : this(Guid.NewGuid())
     {
-        Id = Guid.NewGuid();
         Uri = uri;
         Type = type;
     }
 
-#pragma warning disable CS8618
-    protected Content() { }
-#pragma warning restore CS8618
-
-    public Guid Id { get; protected init; }
     public Uri Uri { get; protected init; }
+
     public ContentType Type { get; protected init; }
 }
