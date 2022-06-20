@@ -1,13 +1,6 @@
-﻿namespace Do_Svyazi.Message.Domain.Entities;
+﻿using RichEntity.Annotations;
 
-public class Chat
-{
-    public Chat(Guid id)
-    {
-        Id = id;
-    }
+namespace Do_Svyazi.Message.Domain.Entities;
 
-    protected Chat() { }
-
-    public Guid Id { get; protected init; }
-}
+[ConfigureConstructors(ParametrizedConstructorAccessibility = Accessibility.Public)]
+public partial class Chat : IEntity<Guid> { }

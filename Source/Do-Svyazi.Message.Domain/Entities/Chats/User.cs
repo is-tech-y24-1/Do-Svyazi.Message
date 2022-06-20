@@ -1,13 +1,6 @@
-﻿namespace Do_Svyazi.Message.Domain.Entities;
+﻿using RichEntity.Annotations;
 
-public class User
-{
-    public User(Guid id)
-    {
-        Id = id;
-    }
+namespace Do_Svyazi.Message.Domain.Entities;
 
-    protected User() { }
-
-    public Guid Id { get; protected init; }
-}
+[ConfigureConstructors(ParametrizedConstructorAccessibility = Accessibility.Public)]
+public partial class User : IEntity<Guid> { }
