@@ -118,4 +118,20 @@ public class ChatController : ControllerBase
         await _context.Clients.Group(chatId.ToString()).OnMessageUpdated(messageId);
         return Ok();
     }
+
+    [HttpPost("{chatId}/messages/send-forwarded")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<MessageDto>> AddForwardedMessage([FromRoute] Guid chatId,
+        Guid messageId,
+        string text,
+        DateTime postDateTime,
+        IReadOnlyCollection<ContentDto> contents)
+    {
+        var user = HttpContext.GetUserModel();
+        var command = new AddForwardedMessage.Command(user.Id, chatId, messageId, text, postDateTime, contents);
+        var response = await _mediator.Send(command, HttpContext.RequestAborted);
+        
+        await _context.Clients.Group(chatId.ToString()).OnMessageReceived(response.Message);
+        return Ok(response.Message);
+    }
 }
