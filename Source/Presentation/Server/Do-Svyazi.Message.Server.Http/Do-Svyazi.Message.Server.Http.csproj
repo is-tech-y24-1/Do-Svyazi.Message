@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Application\Do-Svyazi.Message.Application.CQRS\Do-Svyazi.Message.Application.CQRS.csproj" />
+      <ProjectReference Include="..\Do-Svyazi.Message.Server.Tcp\Do-Svyazi.Message.Server.Tcp.csproj" />
     </ItemGroup>
 
     <ItemGroup>
