@@ -48,7 +48,7 @@ public class ChatController : ControllerBase
         return Ok(response.ChatUserState);
     }
 
-    [HttpDelete("{chatId}/delete")]
+    [HttpDelete("{chatId}/messages/{messageId}/delete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<OkResult> DeleteMessage([FromRoute] Guid chatId, [FromRoute] Guid messageId)
     {
@@ -73,7 +73,7 @@ public class ChatController : ControllerBase
         return Ok(response.Message);
     }
 
-    [HttpPost("{chatId}/add")]
+    [HttpPost("{chatId}/messages/send")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<MessageDto>> AddMessage(
         [FromRoute] Guid chatId,
@@ -89,7 +89,7 @@ public class ChatController : ControllerBase
         return Ok(response.Message);
     }
     
-    [HttpPut("{chatId}/messages/{messageId}/updateText")]
+    [HttpPut("{chatId}/messages/{messageId}/update-text")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<OkResult> UpdateMessageText([FromRoute] Guid chatId, [FromRoute] Guid messageId, string text)
     {
@@ -101,7 +101,7 @@ public class ChatController : ControllerBase
         return Ok();
     }
     
-    [HttpPut("{chatId}/messages/{messageId}/updateContent")]
+    [HttpPut("{chatId}/messages/{messageId}/update-content")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<OkResult> UpdateMessageContent([FromRoute] Guid chatId,
         [FromRoute] Guid messageId, 
