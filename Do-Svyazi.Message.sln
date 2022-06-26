@@ -30,9 +30,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Server.We
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sdk", "Sdk", "{E0AB0262-1737-4C02-BD53-7452A3041AB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Sdk.Http", "Source\Presentation\Client\Do-Svyazi.Message.Sdk.Http\Do-Svyazi.Message.Sdk.Http.csproj", "{732E3B3E-8900-410F-83B2-AB37A1734F0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Sdk.Http", "Source\Presentation\Sdk\Do-Svyazi.Message.Sdk.Http\Do-Svyazi.Message.Sdk.Http.csproj", "{732E3B3E-8900-410F-83B2-AB37A1734F0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Sdk.Tcp", "Source\Presentation\Client\Do-Svyazi.Message.Sdk.Tcp\Do-Svyazi.Message.Sdk.Tcp.csproj", "{7C1BB1FA-D30C-4481-B601-529C8C9DD341}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Do-Svyazi.Message.Sdk.Tcp", "Source\Presentation\Sdk\Do-Svyazi.Message.Sdk.Tcp\Do-Svyazi.Message.Sdk.Tcp.csproj", "{7C1BB1FA-D30C-4481-B601-529C8C9DD341}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E838AF9C-103C-4697-BDC2-452150D71E65}"
 EndProject
