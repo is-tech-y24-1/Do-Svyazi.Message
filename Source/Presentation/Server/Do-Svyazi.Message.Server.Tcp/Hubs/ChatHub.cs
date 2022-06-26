@@ -1,7 +1,7 @@
 ﻿using Do_Svyazi.Message.Application.CQRS.Messages.Queries;
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
 using Do_Svyazi.Message.Application.Dto.Messages;
-using Do_Svyazi.Message.Client.Tcp.Interfaces;
+using Do_Svyazi.Message.Sdk.Tcp.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
