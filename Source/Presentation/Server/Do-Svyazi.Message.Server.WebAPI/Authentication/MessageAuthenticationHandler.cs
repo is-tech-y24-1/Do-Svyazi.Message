@@ -4,17 +4,16 @@ using Do_Svyazi.Message.Application.Abstractions.Integrations.Models;
 using Do_Svyazi.Message.Application.CQRS.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Do_Svyazi.Message.Server.Tcp.Authentication;
+namespace Do_Svyazi.Message.Server.WebAPI.Authentication;
 
-public class MessageAuthenticationHandler : AuthenticationHandler<ChatAuthSchemeOptions>
+public class MessageAuthenticationHandler : AuthenticationHandler<MessageAuthenticationSchemeOptions>
 {
     private readonly IMediator _mediator;
 
     public MessageAuthenticationHandler(
-        IOptionsMonitor<ChatAuthSchemeOptions> options,
+        IOptionsMonitor<MessageAuthenticationSchemeOptions> options,
         ILoggerFactory logger,
         UrlEncoder encoder,
         ISystemClock clock,
