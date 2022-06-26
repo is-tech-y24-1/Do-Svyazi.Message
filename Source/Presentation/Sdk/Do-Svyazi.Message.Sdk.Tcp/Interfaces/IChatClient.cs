@@ -1,6 +1,6 @@
 ﻿using Do_Svyazi.Message.Application.Dto.Messages;
 
-namespace Do_Svyazi.Message.Client.Tcp.Interfaces;
+namespace Do_Svyazi.Message.Sdk.Tcp.Interfaces;
 
 public interface IChatClient
 {
