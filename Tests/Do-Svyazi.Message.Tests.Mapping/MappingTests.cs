@@ -17,7 +17,7 @@ public class MappingTests
     public void Setup()
     {
         var collection = new ServiceCollection();
-        collection.RegisterMapping();
+        collection.AddMapping();
 
         var provider = collection.BuildServiceProvider();
         _mapper = provider.GetRequiredService<IMapper>();
