@@ -1,5 +1,4 @@
 using Do_Svyazi.Message.Application.Abstractions.DataAccess;
-using Do_Svyazi.Message.Application.Abstractions.Exceptions.NotFound;
 using Do_Svyazi.Message.Application.Abstractions.Services;
 using Do_Svyazi.Message.Domain.Entities;
 
@@ -21,7 +20,11 @@ public class UserService : IUserService
             .ConfigureAwait(false);
 
         if (user is null)
-            throw new UserNotFoundException(id);
+        {
+            user = new User(id);
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
 
         return user;
     }
