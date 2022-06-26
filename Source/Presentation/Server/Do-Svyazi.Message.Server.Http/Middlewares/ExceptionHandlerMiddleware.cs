@@ -39,13 +39,10 @@ public class ExceptionHandlerMiddleware
 
             await context.Response.WriteAsync(e.Message);
         }
-        catch (Exception e)
+        catch
         {
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Response.ContentType = "text/*";
-
-            await context.Response.WriteAsync(e.Message);
         }
     }
 }
-
