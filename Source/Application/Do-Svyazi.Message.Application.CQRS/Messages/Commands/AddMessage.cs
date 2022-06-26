@@ -14,7 +14,6 @@ public static class AddMessage
         Guid UserId,
         Guid ChatId,
         string Text,
-        DateTime PostDateTime,
         IReadOnlyCollection<ContentDto> Contents) : IRequest<Response>;
 
     public record Response(MessageDto Message);
@@ -24,23 +23,27 @@ public static class AddMessage
         private readonly IMessageDatabaseContext _context;
         private readonly IChatUserService _chatUserService;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IDateTimeService _dateTimeService;
         private readonly IMapper _mapper;
 
         public Handler(
             IMessageDatabaseContext context,
             IChatUserService chatUserService,
             IAuthorizationService authorizationService,
-            IMapper mapper)
+            IMapper mapper,
+            IDateTimeService dateTimeService)
         {
             _context = context;
             _chatUserService = chatUserService;
             _authorizationService = authorizationService;
             _mapper = mapper;
+            _dateTimeService = dateTimeService;
         }
 
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
         {
-            var (userId, chatId, text, postDateTime, contentDtos) = request;
+            var (userId, chatId, text, contentDtos) = request;
+            var postDateTime = _dateTimeService.GetCurrent();
 
             var chatUser = await _chatUserService
                 .GetChatUser(chatId, userId, cancellationToken)
