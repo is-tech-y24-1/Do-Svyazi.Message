@@ -9,15 +9,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Application\Do-Svyazi.Message.Application.CQRS\Do-Svyazi.Message.Application.CQRS.csproj" />
+      <ProjectReference Include="..\..\Sdk\Do-Svyazi.Message.Sdk.Tcp\Do-Svyazi.Message.Sdk.Tcp.csproj" />
       <ProjectReference Include="..\Do-Svyazi.Message.Server.Tcp\Do-Svyazi.Message.Server.Tcp.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Models" />
     </ItemGroup>
 
 </Project>
