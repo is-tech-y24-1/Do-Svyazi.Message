@@ -8,11 +8,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.5" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Application\Do-Svyazi.Message.Application.CQRS\Do-Svyazi.Message.Application.CQRS.csproj" />
+      <ProjectReference Include="..\..\..\Application\Do-Svyazi.Message.Application.Services\Do-Svyazi.Message.Application.Services.csproj" />
       <ProjectReference Include="..\..\..\Infrastructure\Do-Svyazi.Message.DataAccess\Do-Svyazi.Message.DataAccess.csproj" />
       <ProjectReference Include="..\..\..\Infrastructure\Do-Svyazi.Message.Integrations\Do-Svyazi.Message.Integrations.csproj" />
       <ProjectReference Include="..\..\..\Infrastructure\Do-Svyazi.Message.Mapping\Do-Svyazi.Message.Mapping.csproj" />

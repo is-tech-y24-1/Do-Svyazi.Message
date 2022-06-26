@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace>Do_Svyazi.Message.Client.Tcp</RootNamespace>
+        <RootNamespace>Do_Svyazi.Message.Sdk.Tcp</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>

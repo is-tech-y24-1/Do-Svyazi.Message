@@ -5,7 +5,7 @@ namespace Do_Svyazi.Message.Application.CQRS.Extensions;
 
 public static class RegistrationExtensions
 {
-    public static void RegisterCQRS(this IServiceCollection collection)
+    public static void AddCqrs(this IServiceCollection collection)
     {
         collection.AddMediatR(typeof(IAssemblyMarker));
     }

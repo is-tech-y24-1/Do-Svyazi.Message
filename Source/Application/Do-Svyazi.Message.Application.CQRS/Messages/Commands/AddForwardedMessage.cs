@@ -1,6 +1,5 @@
 using AutoMapper;
 using Do_Svyazi.Message.Application.Abstractions.DataAccess;
-using Do_Svyazi.Message.Application.Abstractions.Exceptions.NotFound;
 using Do_Svyazi.Message.Application.Abstractions.Integrations;
 using Do_Svyazi.Message.Application.Abstractions.Services;
 using Do_Svyazi.Message.Application.Dto.Messages;
@@ -16,7 +15,6 @@ public static class AddForwardedMessage
         Guid ChatId,
         Guid ForwardedMessageId,
         string Text,
-        DateTime PostDateTime,
         IReadOnlyCollection<ContentDto> Contents) : IRequest<Response>;
 
     public record Response(ForwardedMessageDto Message);
@@ -27,6 +25,7 @@ public static class AddForwardedMessage
         private readonly IChatUserService _chatUserService;
         private readonly IMessageService _messageService;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IDateTimeService _dateTimeService;
         private readonly IMapper _mapper;
 
         public Handler(
@@ -34,18 +33,21 @@ public static class AddForwardedMessage
             IChatUserService chatUserService,
             IAuthorizationService authorizationService,
             IMapper mapper,
-            IMessageService messageService)
+            IMessageService messageService,
+            IDateTimeService dateTimeService)
         {
             _context = context;
             _chatUserService = chatUserService;
             _authorizationService = authorizationService;
             _mapper = mapper;
             _messageService = messageService;
+            _dateTimeService = dateTimeService;
         }
 
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
         {
-            var (userId, chatId, forwardedMessageId, text, postDateTime, contentDtos) = request;
+            var (userId, chatId, forwardedMessageId, text, contentDtos) = request;
+            var postDateTime = _dateTimeService.GetCurrent();
 
             var chatUser = await _chatUserService
                 .GetChatUser(chatId, userId, cancellationToken)

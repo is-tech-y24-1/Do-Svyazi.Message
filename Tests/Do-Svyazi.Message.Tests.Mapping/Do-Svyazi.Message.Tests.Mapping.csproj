@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Source\Infrastructure\Do-Svyazi.Message.Mapping\Do-Svyazi.Message.Mapping.csproj" />
+      <ProjectReference Include="..\..\Source\Infrastructure\Do-Svyazi.Message.Mapping\Do-Svyazi.Message.Mapping.csproj" />
     </ItemGroup>
 
 </Project>

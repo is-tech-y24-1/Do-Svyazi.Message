@@ -1,10 +1,11 @@
-﻿using Do_Svyazi.Message.Application.CQRS.Chats.Queries;
+﻿using System.Security.Claims;
+using Do_Svyazi.Message.Application.CQRS.Chats.Queries;
 using Do_Svyazi.Message.Application.CQRS.Messages.Commands;
 using Do_Svyazi.Message.Application.CQRS.Messages.Queries;
 using Do_Svyazi.Message.Application.Dto.Chats;
 using Do_Svyazi.Message.Application.Dto.Messages;
-using Do_Svyazi.Message.Client.Tcp.Interfaces;
-using Do_Svyazi.Message.Server.Http.Extensions;
+using Do_Svyazi.Message.Sdk.Tcp.Interfaces;
+using Do_Svyazi.Message.Server.Http.Models;
 using Do_Svyazi.Message.Server.Tcp.Hubs;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,12 +27,13 @@ public class ChatController : ControllerBase
         _context = context;
     }
 
+    private Guid UserId => Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
     [HttpGet("{chatId}/messages/unread")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<int>> GetCountOfUnreadMessages([FromRoute] Guid chatId)
     {
-        var user = HttpContext.GetUserModel();
-        var query = new GetChatUserState.Query(user.Id, chatId);
+        var query = new GetChatUserState.Query(UserId, chatId);
         var response = await _mediator.Send(query, HttpContext.RequestAborted);
 
         return Ok(response.ChatUserState.UnreadMessageCount);
@@ -41,8 +43,7 @@ public class ChatController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ChatUserStateDto>> GetChatState([FromRoute] Guid chatId)
     {
-        var user = HttpContext.GetUserModel();
-        var query = new GetChatUserState.Query(user.Id, chatId);
+        var query = new GetChatUserState.Query(UserId, chatId);
         var response = await _mediator.Send(query, HttpContext.RequestAborted);
 
         return Ok(response.ChatUserState);
@@ -52,8 +53,7 @@ public class ChatController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<OkResult> DeleteMessage([FromRoute] Guid chatId, [FromRoute] Guid messageId)
     {
-        var user = HttpContext.GetUserModel();
-        var command = new DeleteMessage.Command(user.Id, messageId);
+        var command = new DeleteMessage.Command(UserId, messageId);
         await _mediator.Send(command, HttpContext.RequestAborted);
 
         await _context.Clients.Group(chatId.ToString()).OnMessageDeleted(messageId);
@@ -64,8 +64,7 @@ public class ChatController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<MessageDto>> GetMessage([FromRoute] Guid chatId, [FromRoute] Guid messageId)
     {
-        var user = HttpContext.GetUserModel();
-        var query = new GetMessage.Query(user.Id, messageId);
+        var query = new GetMessage.Query(UserId, messageId);
         var response = await _mediator.Send(query, HttpContext.RequestAborted);
         
         await _context.Clients.Group(chatId.ToString()).OnMessageReceived(response.Message);
@@ -78,11 +77,9 @@ public class ChatController : ControllerBase
     public async Task<ActionResult<MessageDto>> AddMessage(
         [FromRoute] Guid chatId,
         string text,
-        DateTime postDateTime,
         IReadOnlyCollection<ContentDto> contents)
     {
-        var user = HttpContext.GetUserModel();
-        var command = new AddMessage.Command(user.Id, chatId, text, postDateTime, contents);
+        var command = new AddMessage.Command(UserId, chatId, text, contents);
         var response = await _mediator.Send(command, HttpContext.RequestAborted);
         
         await _context.Clients.Group(chatId.ToString()).OnMessageReceived(response.Message);
@@ -93,26 +90,24 @@ public class ChatController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<OkResult> UpdateMessageText([FromRoute] Guid chatId, [FromRoute] Guid messageId, string text)
     {
-        var user = HttpContext.GetUserModel();
-        var command = new UpdateMessage.Command(user.Id, messageId, text);
+        var command = new UpdateMessage.Command(UserId, messageId, text);
         await _mediator.Send(command, HttpContext.RequestAborted);
         
         await _context.Clients.Group(chatId.ToString()).OnMessageUpdated(messageId);
         return Ok();
     }
-    
+
     [HttpPut("{chatId}/messages/{messageId}/update-content")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<OkResult> UpdateMessageContent([FromRoute] Guid chatId,
-        [FromRoute] Guid messageId, 
-        IReadOnlyCollection<ContentDto> addedContents,
-        IReadOnlyCollection<MessageContentDto> removedContents)
+    public async Task<OkResult> UpdateMessageContent(
+        [FromRoute] Guid chatId,
+        [FromRoute] Guid messageId,
+        UpdateMessageContentRequest request)
     {
-        var user = HttpContext.GetUserModel();
-        var query = new GetMessage.Query(user.Id, messageId);
+        var query = new GetMessage.Query(UserId, messageId);
         await _mediator.Send(query, HttpContext.RequestAborted);
         
-        var command = new UpdateMessageContent.Command(user.Id, messageId, addedContents, removedContents);
+        var command = new UpdateMessageContent.Command(UserId, messageId, request.AddedContents, request.RemovedContents);
         await _mediator.Send(command, HttpContext.RequestAborted);
 
         await _context.Clients.Group(chatId.ToString()).OnMessageUpdated(messageId);
@@ -124,11 +119,9 @@ public class ChatController : ControllerBase
     public async Task<ActionResult<MessageDto>> AddForwardedMessage([FromRoute] Guid chatId,
         Guid messageId,
         string text,
-        DateTime postDateTime,
         IReadOnlyCollection<ContentDto> contents)
     {
-        var user = HttpContext.GetUserModel();
-        var command = new AddForwardedMessage.Command(user.Id, chatId, messageId, text, postDateTime, contents);
+        var command = new AddForwardedMessage.Command(UserId, chatId, messageId, text, contents);
         var response = await _mediator.Send(command, HttpContext.RequestAborted);
         
         await _context.Clients.Group(chatId.ToString()).OnMessageReceived(response.Message);
