@@ -34,7 +34,7 @@ public static class GetChatUserState
             var chatUser = await _chatUserService
                 .GetChatUser(chatId, userId, cancellationToken)
                 .ConfigureAwait(false);
-
+            
             IQueryable<Domain.Entities.Message> chatMessages = _context.Messages
                 .Where(m => m.Sender.Chat.Equals(chatUser.Chat));
 
